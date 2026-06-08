@@ -30,6 +30,10 @@ export class App {
     {
       label: 'Reactive Form',
       route: '/reactive-form',
+    },
+    {
+      label: 'Samenvatting',
+      route: '/summary',
     }
   ];
 

@@ -30,6 +30,11 @@ export class Home {
       title: 'Reactive Form',
       route: '/reactive-form',
       description: 'FormGroup, FormControl, Validators, validatie en submit.'
+    },
+    {
+      title: 'Samenvatting',
+      route: '/summary',
+      description: 'Een mooiere site-versie van de README met alle onderdelen kort op een rij.'
     }
   ];
 }

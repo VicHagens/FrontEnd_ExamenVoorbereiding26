@@ -4,6 +4,7 @@ import { Home } from './features/Home/home';
 import { InputOutput } from './features/InputOutput/input-output';
 import { ReactiveForm } from './features/ReactiveForm/reactive-form';
 import { StudentFeature } from './features/Student/student';
+import { Summary } from './features/Summary/summary';
 
 export const routes: Routes = [
   // De lege path '' is de startpagina van de applicatie.
@@ -28,6 +29,10 @@ export const routes: Routes = [
   {
     path: 'reactive-form',
     component: ReactiveForm
+  },
+  {
+    path: 'summary',
+    component: Summary
   },
   // Wildcard route:
   // Als een gebruiker naar een onbekende URL gaat, sturen we hem terug naar home.

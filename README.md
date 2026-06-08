@@ -633,3 +633,14 @@ Als het formulier geldig is, maken we een nieuw `Student` object met de formulie
 - `form.valid` zegt of het formulier geldig is.
 - `form.value` bevat de ingevulde waarden.
 - `(ngSubmit)` voert een method uit bij submit.
+
+## 6. Samenvatting in de site
+
+De README bestaat ook als visuele pagina in de applicatie.
+De oefening staat in:
+
+- `src/app/features/Summary/summary.ts`
+- `src/app/features/Summary/summary.html`
+
+Deze pagina toont per onderdeel een Bootstrap-card met de belangrijkste examenpunten.
+Zo kan je de samenvatting bekijken zonder de README apart te openen.

@@ -1,0 +1,31 @@
+<section class="mb-4">
+  <h2 class="h3">Samenvatting</h2>
+  <p class="mb-0">
+    Dit is de README-inhoud als studiepagina in de app zelf. Elk kaartje vat een geimplementeerd
+    onderdeel samen.
+  </p>
+</section>
+
+<section class="row g-3">
+  <!--
+    @for:
+    We maken automatisch een Bootstrap-card per onderdeel.
+    De inhoud komt uit de sections array in summary.ts.
+  -->
+  @for (section of sections; track section.title) {
+    <article class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h3 class="h5 card-title">{{ section.title }}</h3>
+          <p class="text-secondary">{{ section.description }}</p>
+
+          <ul class="mb-0">
+            @for (point of section.points; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </article>
+  }
+</section>
