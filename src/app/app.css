@@ -1,0 +1,14 @@
+.app-topic-nav {
+  min-width: 260px;
+}
+
+.app-topic-nav a.active {
+  border-color: #0d6efd !important;
+  background: #f8fbff;
+}
+
+@media (max-width: 760px) {
+  .app-topic-nav {
+    min-width: 0;
+  }
+}

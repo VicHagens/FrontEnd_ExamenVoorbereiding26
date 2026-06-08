@@ -1,0 +1,32 @@
+<article class="card h-100">
+  <div class="card-body">
+  <h3 class="h5 card-title">Overview zonder RxJS pipe</h3>
+  <p class="text-secondary">
+    Deze component toont de studenten rechtstreeks uit het JSON-bestand.
+  </p>
+
+  <!--
+    ASYNC PIPE:
+    students$ is een Observable.
+    De async pipe subscribet automatisch en geeft hier de echte studentenlijst terug.
+    Dit is properder dan zelf subscribe() schrijven wanneer je de data alleen in HTML toont.
+  -->
+  @if (students$ | async; as students) {
+    <div class="d-grid gap-3">
+      <!--
+        @for:
+        We loopen door de studentenlijst.
+        track student.id zorgt ervoor dat Angular elk item kan herkennen.
+      -->
+      @for (student of students; track student.id) {
+        <section class="border rounded p-3">
+          <h4 class="h6 mb-2">{{ student.voornaam }} {{ student.achternaam }}</h4>
+          <p class="text-secondary mb-1">{{ student.studentnummer }}</p>
+          <p class="text-secondary mb-2">{{ student.email }}</p>
+          <strong>{{ student.behaaldePunten }} / 180 punten</strong>
+        </section>
+      }
+    </div>
+  }
+  </div>
+</article>

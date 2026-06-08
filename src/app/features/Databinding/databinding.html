@@ -1,0 +1,124 @@
+<section class="mb-4">
+  <!--
+    ONE-WAY BINDING met interpolation:
+    {{ pageTitle }} toont de waarde van pageTitle uit databinding.ts.
+    De waarde gaat van TypeScript naar HTML.
+  -->
+  <h2 class="h3">{{ pageTitle }}</h2>
+  <p class="mb-0">{{ explanation }}</p>
+</section>
+
+<section class="row g-3">
+  <article class="col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">One-way binding</h3>
+
+        <!--
+          Ook dit is one-way binding:
+          studentName wordt hier alleen getoond.
+          Deze paragraaf verandert wel mee als studentName verandert door de input lager op de pagina.
+        -->
+        <p>Welkom, {{ studentName }}.</p>
+        <p class="mb-0">Je hebt al {{ clickCount }} keer geklikt.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Event binding</h3>
+
+        <!--
+          EVENT BINDING:
+          (click) luistert naar het klik-event van de button.
+          Wanneer de gebruiker klikt, voert Angular increaseClickCount() uit.
+        -->
+        <button type="button" class="btn btn-primary me-2 mb-2" (click)="increaseClickCount()">
+          Klik teller omhoog
+        </button>
+
+        <!--
+          PROPERTY BINDING:
+          Volgens de les noemen we dit attribute binding.
+          [disabled] koppelt de disabled-property van de knop aan isResetDisabled.
+        -->
+        <button
+          type="button"
+          class="btn btn-outline-secondary mb-2"
+          [disabled]="isResetDisabled"
+          (click)="resetClickCount()"
+        >
+          Reset teller
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Two-way binding</h3>
+
+        <label class="form-label fw-bold" for="student-name">Naam</label>
+
+        <!--
+          TWO-WAY BINDING:
+          [(ngModel)] maakt een koppeling in twee richtingen.
+          1. De input toont de waarde van studentName.
+          2. Als je typt, verandert studentName automatisch in databinding.ts.
+        -->
+        <input id="student-name" class="form-control" type="text" [(ngModel)]="studentName" />
+      </div>
+    </div>
+  </article>
+
+  <article class="col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Attribute binding</h3>
+
+        <!--
+          STYLE BINDING:
+          Volgens de les valt dit onder attribute binding.
+          [style.color] zet de CSS-kleur gelijk aan textColor uit databinding.ts.
+        -->
+        <p class="fw-bold" [style.color]="textColor">Deze tekst krijgt zijn kleur via binding.</p>
+
+        <button type="button" class="btn btn-primary" (click)="changeTextColor()">
+          Verander kleur
+        </button>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="card mt-3">
+  <div class="card-body">
+    <h3 class="h5 card-title">Moderne Angular syntax</h3>
+
+    <!--
+      @if:
+      Dit is de nieuwe Angular-manier om iets alleen te tonen als een voorwaarde klopt.
+      We gebruiken dus niet de oudere *ngIf.
+    -->
+    @if (clickCount > 0) {
+      <p>De teller is actief, want je hebt minstens 1 keer geklikt.</p>
+    } @else {
+      <p>De teller staat nog op 0.</p>
+    }
+
+    <ul class="mb-0">
+      <!--
+        @for:
+        Dit is de nieuwe Angular-manier om door een lijst te loopen.
+        We gebruiken dus niet de oudere *ngFor.
+        track example zorgt ervoor dat Angular elk lijstitem kan herkennen.
+      -->
+      @for (example of bindingExamples; track example) {
+        <li>{{ example }}</li>
+      }
+    </ul>
+  </div>
+</section>

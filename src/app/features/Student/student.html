@@ -1,0 +1,17 @@
+<section class="mb-4">
+  <h2 class="h3">Studenten service laag</h2>
+  <p class="mb-0">
+    Deze pagina gebruikt een singleton service, een studentmodel en data uit een JSON-bestand.
+    De twee overviews tonen dezelfde basisdata, maar de tweede gebruikt RxJS .pipe() met tap() en map().
+  </p>
+</section>
+
+<section class="row g-3">
+  <div class="col-lg-6">
+    <app-overview />
+  </div>
+
+  <div class="col-lg-6">
+    <app-overview-balance />
+  </div>
+</section>

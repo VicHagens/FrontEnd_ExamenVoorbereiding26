@@ -1,0 +1,44 @@
+<article class="card h-100">
+  <div class="card-body">
+  <h3 class="h5 card-title">Overview met RxJS pipe</h3>
+  <p class="text-secondary">
+    Deze component toont studenten met extra berekende waarden uit de service.
+  </p>
+
+  <!--
+    ASYNC PIPE:
+    studentsWithBalance$ is een Observable.
+    De async pipe haalt de laatste waarde uit die Observable en ruimt de subscription ook op.
+  -->
+  @if (studentsWithBalance$ | async; as studentsWithBalance) {
+    <div class="d-grid gap-3">
+      <!--
+        @for:
+        Ook hier gebruiken we de nieuwe Angular-syntax.
+        Deze lijst komt uit getStudentsWithBalance().
+      -->
+      @for (student of studentsWithBalance; track student.id) {
+        <section class="border rounded p-3">
+          <div class="d-flex align-items-start justify-content-between gap-3">
+            <h4 class="h6 mb-2">{{ student.voornaam }} {{ student.achternaam }}</h4>
+            <span class="badge text-bg-primary">{{ student.status }}</span>
+          </div>
+
+          <p class="text-secondary mb-1">{{ student.behaaldePunten }} punten behaald</p>
+          <p class="text-secondary mb-2">{{ student.resterendePunten }} punten resterend</p>
+
+          <!--
+            STYLE BINDING:
+            De breedte van de balk komt uit het berekende percentage.
+          -->
+          <div class="progress" role="progressbar" aria-label="Studievoortgang">
+            <div class="progress-bar bg-success" [style.width.%]="student.percentage"></div>
+          </div>
+
+          <strong class="d-block mt-2">{{ student.percentage }}%</strong>
+        </section>
+      }
+    </div>
+  }
+  </div>
+</article>

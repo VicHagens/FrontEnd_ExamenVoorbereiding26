@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "voornaam": "Lina",
+    "achternaam": "Peeters",
+    "studentnummer": "r000001",
+    "email": "lina.peeters@student.school.be",
+    "behaaldePunten": 142
+  },
+  {
+    "id": 2,
+    "voornaam": "Noah",
+    "achternaam": "Janssens",
+    "studentnummer": "r000002",
+    "email": "noah.janssens@student.school.be",
+    "behaaldePunten": 96
+  },
+  {
+    "id": 3,
+    "voornaam": "Emma",
+    "achternaam": "Maes",
+    "studentnummer": "r000003",
+    "email": "emma.maes@student.school.be",
+    "behaaldePunten": 171
+  },
+  {
+    "id": 4,
+    "voornaam": "Milan",
+    "achternaam": "Vermeulen",
+    "studentnummer": "r000004",
+    "email": "milan.vermeulen@student.school.be",
+    "behaaldePunten": 58
+  }
+]
