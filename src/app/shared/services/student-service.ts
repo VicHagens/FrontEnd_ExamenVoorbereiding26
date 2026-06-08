@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { Student, StudentBalance } from '../models/student';
 
 @Injectable({
@@ -9,6 +10,10 @@ import { Student, StudentBalance } from '../models/student';
   providedIn: 'root'
 })
 export class StudentService {
+  // De URL naar onze data staat in de environment.
+  // Zo staat de link naar JSON of API niet hardcoded verspreid door de service.
+  private apiUrl = `${environment.apiUrl}`;
+
   // We bewaren het maximum hier op een centrale plaats.
   // Als het maximum ooit verandert, moeten we het maar op 1 plek aanpassen.
   private maxPunten = 180;
@@ -17,12 +22,14 @@ export class StudentService {
 
   getStudents(): Observable<Student[]> {
     // Deze method haalt de studenten gewoon uit het JSON-bestand.
-    // Hier gebruiken we bewust nog geen RxJS .pipe(), zodat de gewone JSON-service duidelijk blijft.
-    return this.http.get<Student[]>('/students.json');
+    // tap() toont wat er opgehaald is, maar past de data niet aan.
+    return this.http.get<Student[]>(this.apiUrl).pipe(
+      tap((result) => console.log('Opgehaalde data:', result))
+    );
   }
 
   getStudentsWithBalance(): Observable<StudentBalance[]> {
-    return this.http.get<Student[]>('/students.json').pipe(
+    return this.http.get<Student[]>(this.apiUrl).pipe(
       // tap() wordt vaak gebruikt om even te kijken wat er door de stream komt.
       // Het verandert de data niet.
       tap((students) => console.log('Studenten uit JSON:', students)),

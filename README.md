@@ -160,7 +160,12 @@ In dit project staat de studenten-feature in:
 De gedeelde code staat in:
 
 - `src/app/shared/models/student.ts`
-- `src/app/shared/services/student-data.ts`
+- `src/app/shared/services/student-service.ts`
+
+De environment-bestanden staan in:
+
+- `src/Environments/environment.ts`
+- `src/Environments/environment.development.ts`
 
 De JSON-data staat in:
 
@@ -216,10 +221,28 @@ Dat maakt de code duidelijker en veiliger.
 De studenten staan niet rechtstreeks in de component.
 Ze staan in `public/students.json`.
 
-De service haalt die data op:
+De link naar het JSON-bestand staat in `environment.development.ts`:
 
 ```ts
-return this.http.get<Student[]>('/students.json');
+export const environment = {
+  production: false,
+  apiUrl: 'students.json',
+  WebAPIBaseUrl: 'https://countriesnow.space/api/v0.1/countries/codes'
+};
+```
+
+De service gebruikt die environment:
+
+```ts
+private apiUrl = `${environment.apiUrl}`;
+```
+
+Daarna haalt de service de data op:
+
+```ts
+return this.http.get<Student[]>(this.apiUrl).pipe(
+  tap((result) => console.log('Opgehaalde data:', result))
+);
 ```
 
 Belangrijk:
@@ -227,6 +250,7 @@ Belangrijk:
 - De component kent het JSON-bestand niet rechtstreeks.
 - De component vraagt data aan de service.
 - De service is verantwoordelijk voor het ophalen van de data.
+- De URL staat centraal in de environment, zodat je die later makkelijk kan aanpassen.
 
 ### Zonder RxJS pipe
 
