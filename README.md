@@ -177,6 +177,7 @@ De JSON-data staat in:
 - Een `StudentBalance` model met extra berekende velden.
 - Een singleton service met `providedIn: 'root'`.
 - Data ophalen uit een JSON-bestand met `HttpClient`.
+- Een student ophalen op id met `getStudentById(id)`.
 - Een overview zonder RxJS `.pipe()`.
 - Een overview met RxJS `.pipe(tap(), map())`.
 - Gebruik van de Angular `async` pipe in de HTML.
@@ -252,6 +253,35 @@ Belangrijk:
 - De service is verantwoordelijk voor het ophalen van de data.
 - De URL staat centraal in de environment, zodat je die later makkelijk kan aanpassen.
 
+### Student ophalen op id
+
+In het project staat ook een method om 1 student op te halen:
+
+```ts
+getStudentById(id: number): Observable<Student | undefined> {
+  return this.http.get<Student[]>(this.apiUrl).pipe(
+    tap((students) => console.log('Alle studenten voor getStudentById:', students)),
+    map((students) => students.find((student) => student.id === id)),
+    tap((student) => console.log('Gevonden student:', student))
+  );
+}
+```
+
+Omdat wij met een lokaal JSON-bestand werken, halen we eerst alle studenten op.
+Daarna zoekt `map()` de student met het juiste id.
+
+Bij een echte REST API zou dit vaak eenvoudiger zijn:
+
+```ts
+return this.http.get<Student>(`${this.apiUrl}/${id}`);
+```
+
+Dan vraagt Angular bijvoorbeeld deze URL op:
+
+```text
+https://api.example.com/students/1
+```
+
 ### Zonder RxJS pipe
 
 De gewone overview gebruikt:
@@ -313,6 +343,68 @@ map() = data omvormen naar iets nieuws
 - De `async` pipe hoort bij Angular templates en leest waarden uit een Observable.
 - `tap()` verandert data niet.
 - `map()` verandert data wel naar een nieuwe vorm.
+
+### Echte API: GET, POST, PUT, PATCH en DELETE
+
+Een lokaal JSON-bestand en een echte API gebruiken in Angular allebei `HttpClient`.
+Voor een simpele GET lijkt de code bijna hetzelfde.
+
+Lokaal JSON-bestand:
+
+```ts
+return this.http.get<Student[]>('students.json');
+```
+
+Echte API:
+
+```ts
+return this.http.get<Student[]>('https://api.example.com/students');
+```
+
+Het verschil is dat een echte API op een server staat.
+Daardoor kan je meestal meer doen dan alleen lezen.
+
+Voorbeelden:
+
+```ts
+getStudents(): Observable<Student[]> {
+  return this.http.get<Student[]>(this.apiUrl);
+}
+
+getStudentById(id: number): Observable<Student> {
+  return this.http.get<Student>(`${this.apiUrl}/${id}`);
+}
+
+addStudent(student: Student): Observable<Student> {
+  return this.http.post<Student>(this.apiUrl, student);
+}
+
+updateStudent(id: number, student: Student): Observable<Student> {
+  return this.http.put<Student>(`${this.apiUrl}/${id}`, student);
+}
+
+deleteStudent(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
+```
+
+Kort:
+
+```text
+GET = data ophalen
+POST = nieuwe data toevoegen
+PUT = bestaande data volledig vervangen
+PATCH = deel van bestaande data aanpassen
+DELETE = data verwijderen
+```
+
+Bij een echte API kunnen extra zaken nodig zijn:
+
+- headers;
+- login token;
+- error handling;
+- CORS-instellingen;
+- andere datastructuur dan je eigen model.
 
 ## 3. Inputparameters, parent to child en child to parent
 

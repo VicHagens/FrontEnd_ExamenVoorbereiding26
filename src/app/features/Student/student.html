@@ -15,3 +15,43 @@
     <app-overview-balance />
   </div>
 </section>
+
+<section class="card mt-3">
+  <div class="card-body">
+    <h3 class="h5 card-title">GET student by id</h3>
+    <p class="text-secondary">
+      Deze card gebruikt <code>getStudentById(id)</code> uit de service. Bij een echte API zou je
+      vaak een URL zoals <code>/students/1</code> gebruiken. Omdat wij met een lokaal JSON-bestand
+      werken, haalt de service eerst alle studenten op en zoekt daarna de juiste student.
+    </p>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <!--
+        @for:
+        We maken een knop per student id.
+        Bij een klik vragen we via de service 1 student op.
+      -->
+      @for (id of studentIds; track id) {
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="loadStudentById(id)">
+          Laad student {{ id }}
+        </button>
+      }
+    </div>
+
+    <!--
+      ASYNC PIPE:
+      selectedStudent$ is een Observable.
+      De async pipe haalt de student uit de Observable en toont hem in de HTML.
+    -->
+    @if (selectedStudent$ | async; as student) {
+      <div class="border rounded p-3">
+        <h4 class="h6 mb-2">{{ student.voornaam }} {{ student.achternaam }}</h4>
+        <p class="text-secondary mb-1">{{ student.studentnummer }}</p>
+        <p class="text-secondary mb-1">{{ student.email }}</p>
+        <strong>{{ student.behaaldePunten }} / 180 punten</strong>
+      </div>
+    } @else {
+      <p class="text-secondary mb-0">Kies een student id om details te laden.</p>
+    }
+  </div>
+</section>

@@ -28,6 +28,19 @@ export class StudentService {
     );
   }
 
+  getStudentById(id: number): Observable<Student | undefined> {
+    // Bij een echte REST API zou dit vaak zo zijn:
+    // return this.http.get<Student>(`${this.apiUrl}/${id}`);
+    //
+    // Omdat wij hier met een lokaal JSON-bestand werken, halen we eerst alle studenten op.
+    // Daarna zoeken we met map() de student met het juiste id.
+    return this.http.get<Student[]>(this.apiUrl).pipe(
+      tap((students) => console.log('Alle studenten voor getStudentById:', students)),
+      map((students) => students.find((student) => student.id === id)),
+      tap((student) => console.log('Gevonden student:', student))
+    );
+  }
+
   getStudentsWithBalance(): Observable<StudentBalance[]> {
     return this.http.get<Student[]>(this.apiUrl).pipe(
       // tap() wordt vaak gebruikt om even te kijken wat er door de stream komt.

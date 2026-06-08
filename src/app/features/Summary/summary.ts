@@ -26,8 +26,21 @@ export class Summary {
         'providedIn: root maakt de service een singleton.',
         'Een model class beschrijft hoe studentdata eruitziet.',
         'HttpClient haalt data op uit students.json.',
+        'getStudentById(id) toont hoe je 1 item kan ophalen.',
         'tap() kijkt naar data, map() vormt data om.',
         'De async pipe leest waarden uit een Observable in de template.'
+      ]
+    },
+    {
+      title: 'Echte API gebruiken',
+      description: 'Een echte API gebruikt dezelfde HttpClient-basis, maar meestal met meer endpoints.',
+      points: [
+        'GET haalt data op, bijvoorbeeld alle studenten of 1 student per id.',
+        'POST maakt nieuwe data aan op de server.',
+        'PUT past een volledig bestaand object aan.',
+        'PATCH past een deel van een bestaand object aan.',
+        'DELETE verwijdert data op de server.',
+        'Bij een echte API heb je soms headers, tokens, CORS en error handling nodig.'
       ]
     },
     {
