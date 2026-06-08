@@ -1,0 +1,98 @@
+<section class="mb-4">
+  <h2 class="h3">Inputparameters en component communicatie</h2>
+  <p class="mb-0">
+    Deze pagina toont hoe een parent component data doorgeeft aan een child component,
+    en hoe een child component een event terugstuurt naar de parent.
+  </p>
+</section>
+
+<section class="row g-3 mb-3">
+  <article class="col-lg-6">
+    <div class="card h-100 border-primary">
+      <div class="card-body">
+        <h3 class="h5 card-title text-primary">Parent to child</h3>
+        <p class="text-secondary mb-0">
+          De parent gebruikt <code>[student]="student"</code>. Daardoor krijgt elke child card
+          een student binnen via <code>@Input()</code>.
+        </p>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100 border-success">
+      <div class="card-body">
+        <h3 class="h5 card-title text-success">Child to parent</h3>
+        <p class="text-secondary mb-0">
+          De child gebruikt <code>@Output()</code> met <code>EventEmitter</code>. Wanneer je op
+          selecteren klikt, ontvangt de parent de student via <code>$event</code>.
+        </p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="row g-3">
+  <article class="col-lg-8">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Parent component</h3>
+        <p class="text-secondary">
+          Hieronder maakt de parent voor elke student een child component aan.
+        </p>
+
+        <div class="row g-3">
+          <!--
+            @for:
+            De parent loopt door de studentenlijst.
+            Voor elke student wordt er 1 app-student-card child gemaakt.
+          -->
+          @for (student of students; track student.id) {
+            <div class="col-md-6">
+              <!--
+                PARENT TO CHILD:
+                [student]="student" geeft de student uit de parent door aan de child.
+                De child ontvangt dit met @Input().
+
+                CHILD TO PARENT:
+                (studentSelected)="selectStudent($event)" luistert naar een event uit de child.
+                $event is de student die de child heeft meegestuurd.
+              -->
+              <app-student-card
+                [student]="student"
+                (studentSelected)="selectStudent($event)"
+              />
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <aside class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Ontvangen van child</h3>
+
+        <!--
+          @if:
+          Als er een student gekozen is, tonen we de data.
+          Anders tonen we een korte melding.
+        -->
+        @if (selectedStudent) {
+          <p class="text-secondary mb-1">Geselecteerde student:</p>
+          <h4 class="h6 mb-2">
+            {{ selectedStudent.voornaam }} {{ selectedStudent.achternaam }}
+          </h4>
+          <p class="mb-1">{{ selectedStudent.studentnummer }}</p>
+          <p class="mb-1">{{ selectedStudent.email }}</p>
+          <strong>{{ selectedStudent.behaaldePunten }} / 180 punten</strong>
+        } @else {
+          <p class="text-secondary mb-0">
+            Nog geen student geselecteerd. Klik op een selecteerknop in een child card.
+          </p>
+        }
+      </div>
+    </div>
+  </aside>
+</section>

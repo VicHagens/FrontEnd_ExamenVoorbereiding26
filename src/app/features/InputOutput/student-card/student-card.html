@@ -1,0 +1,24 @@
+<div class="card h-100 border-primary-subtle">
+  <div class="card-body">
+    <span class="badge text-bg-primary mb-2">Child component</span>
+
+    <!--
+      PARENT TO CHILD:
+      Deze data komt niet uit deze child zelf.
+      De parent heeft de student doorgestuurd via [student]="student".
+    -->
+    <h4 class="h6 card-title">{{ student.voornaam }} {{ student.achternaam }}</h4>
+    <p class="text-secondary mb-1">{{ student.studentnummer }}</p>
+    <p class="text-secondary mb-2">{{ student.email }}</p>
+    <strong class="d-block mb-3">{{ student.behaaldePunten }} / 180 punten</strong>
+
+    <!--
+      CHILD TO PARENT:
+      Bij een klik roept de child sendStudentToParent() op.
+      Die method gebruikt @Output() om de student terug naar de parent te sturen.
+    -->
+    <button type="button" class="btn btn-outline-primary btn-sm" (click)="sendStudentToParent()">
+      Selecteer student
+    </button>
+  </div>
+</div>

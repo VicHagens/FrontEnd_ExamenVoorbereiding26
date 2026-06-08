@@ -164,8 +164,8 @@ De gedeelde code staat in:
 
 De environment-bestanden staan in:
 
-- `src/Environments/environment.ts`
-- `src/Environments/environment.development.ts`
+- `src/environments/environment.ts`
+- `src/environments/environment.development.ts`
 
 De JSON-data staat in:
 
@@ -313,3 +313,81 @@ map() = data omvormen naar iets nieuws
 - De `async` pipe hoort bij Angular templates en leest waarden uit een Observable.
 - `tap()` verandert data niet.
 - `map()` verandert data wel naar een nieuwe vorm.
+
+## 3. Inputparameters, parent to child en child to parent
+
+Dit onderdeel toont hoe componenten met elkaar communiceren.
+De oefening staat in:
+
+- `src/app/features/InputOutput/input-output.ts`
+- `src/app/features/InputOutput/student-card/student-card.ts`
+
+### Wat is er geimplementeerd?
+
+- Een parent component: `InputOutput`.
+- Een child component: `StudentCard`.
+- Data doorgeven van parent naar child met `@Input()`.
+- Een event terugsturen van child naar parent met `@Output()` en `EventEmitter`.
+
+### Parent to child
+
+Parent to child betekent dat de parent data doorgeeft aan de child.
+
+In de parent HTML:
+
+```html
+<app-student-card [student]="student" />
+```
+
+In de child TypeScript:
+
+```ts
+@Input() student!: Student;
+```
+
+Kort:
+
+```text
+Parent property -> @Input() in child
+```
+
+### Child to parent
+
+Child to parent betekent dat de child iets terugstuurt naar de parent.
+
+In de child TypeScript:
+
+```ts
+@Output() studentSelected = new EventEmitter<Student>();
+
+sendStudentToParent() {
+  this.studentSelected.emit(this.student);
+}
+```
+
+In de parent HTML:
+
+```html
+<app-student-card
+  [student]="student"
+  (studentSelected)="selectStudent($event)"
+/>
+```
+
+`$event` is de waarde die de child heeft meegestuurd.
+In dit voorbeeld is dat de geselecteerde student.
+
+Kort:
+
+```text
+Child @Output() event -> parent method
+```
+
+### Belangrijk voor het examen
+
+- `@Input()` gebruik je om data te ontvangen in een child.
+- `@Output()` gebruik je om een event uit een child te sturen.
+- `EventEmitter` verstuurt de waarde naar de parent.
+- `$event` bevat de waarde die de child heeft meegestuurd.
+- De parent beheert meestal de data.
+- De child toont data en meldt acties terug aan de parent.

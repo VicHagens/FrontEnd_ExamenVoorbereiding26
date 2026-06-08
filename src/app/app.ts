@@ -24,6 +24,11 @@ export class App {
       label: 'Studenten',
       route: '/students',
       description: 'Singleton service, model, JSON en RxJS pipe'
+    },
+    {
+      label: 'Input & Output',
+      route: '/input-output',
+      description: 'Parent to child en child to parent'
     }
   ];
 }

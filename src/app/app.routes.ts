@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Databinding } from './features/Databinding/databinding';
+import { InputOutput } from './features/InputOutput/input-output';
 import { StudentFeature } from './features/Student/student';
 
 export const routes: Routes = [
@@ -17,5 +18,9 @@ export const routes: Routes = [
   {
     path: 'students',
     component: StudentFeature
+  },
+  {
+    path: 'input-output',
+    component: InputOutput
   }
 ];
