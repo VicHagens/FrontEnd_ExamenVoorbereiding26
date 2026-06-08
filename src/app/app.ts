@@ -18,17 +18,18 @@ export class App {
     {
       label: 'Databinding',
       route: '/databinding',
-      exact: true
     },
     {
       label: 'Studenten',
       route: '/students',
-      exact: true
     },
     {
       label: 'Input & Output',
       route: '/input-output',
-      exact: true
+    },
+    {
+      label: 'Reactive Form',
+      route: '/reactive-form',
     }
   ];
 

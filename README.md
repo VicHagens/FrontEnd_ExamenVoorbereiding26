@@ -521,3 +521,115 @@ Als iemand naar een route gaat die niet bestaat, stuurt Angular de gebruiker ter
 - `router-outlet` toont het component van de actieve route.
 - `path: ''` is de startpagina.
 - `path: '**'` is de fallback voor onbekende routes.
+
+## 5. Reactive Form
+
+Reactive forms zijn formulieren waarbij de structuur en validatie vooral in TypeScript staan.
+De oefening staat in:
+
+- `src/app/features/ReactiveForm/reactive-form.ts`
+- `src/app/features/ReactiveForm/reactive-form.html`
+
+### Wat is er geimplementeerd?
+
+- Een studentformulier met `FormGroup`.
+- Formuliervelden met `FormControl`.
+- Validatie met `Validators`.
+- HTML-koppeling met `[formGroup]` en `formControlName`.
+- Submit met `(ngSubmit)`.
+- Foutmeldingen met `@if`.
+- Een disabled submitknop zolang het formulier ongeldig is.
+- Een live preview van `studentForm.value`.
+
+### FormGroup
+
+Een `FormGroup` is een groep van formuliervelden.
+
+Voorbeeld:
+
+```ts
+studentForm = new FormGroup({
+  voornaam: new FormControl('', [Validators.required]),
+  email: new FormControl('', [Validators.required, Validators.email])
+});
+```
+
+Kort:
+
+```text
+FormGroup = volledig formulier
+FormControl = 1 veld in dat formulier
+```
+
+### Validators
+
+Validators controleren of de input geldig is.
+
+Voorbeelden uit het project:
+
+```ts
+Validators.required
+Validators.email
+Validators.min(0)
+Validators.max(180)
+Validators.pattern(/^r\d{6}$/)
+```
+
+Het studentnummer moet bijvoorbeeld het formaat `r000000` hebben.
+
+### HTML koppeling
+
+De HTML-form wordt gekoppeld aan de FormGroup:
+
+```html
+<form [formGroup]="studentForm" (ngSubmit)="saveStudent()">
+```
+
+Een input wordt gekoppeld aan een FormControl:
+
+```html
+<input formControlName="voornaam" />
+```
+
+### Validatie tonen
+
+In het project gebruiken we een helper method:
+
+```ts
+isInvalid(controlName: string): boolean {
+  const control = this.studentForm.get(controlName);
+  return !!control && control.invalid && control.touched;
+}
+```
+
+Daarna tonen we in de HTML een foutmelding:
+
+```html
+@if (isInvalid('voornaam')) {
+  <p>Voornaam is verplicht.</p>
+}
+```
+
+### Submit
+
+Bij submit controleren we eerst of het formulier geldig is.
+
+```ts
+if (this.studentForm.invalid) {
+  this.studentForm.markAllAsTouched();
+  return;
+}
+```
+
+Als het formulier geldig is, maken we een nieuw `Student` object met de formulierwaarden.
+
+### Belangrijk voor het examen
+
+- Reactive forms worden opgebouwd in TypeScript.
+- `ReactiveFormsModule` is nodig om reactive forms te gebruiken.
+- `[formGroup]` koppelt een HTML-form aan een FormGroup.
+- `formControlName` koppelt een input aan een FormControl.
+- `Validators` controleren de input.
+- `form.valid` zegt of het formulier geldig is.
+- `form.value` bevat de ingevulde waarden.
+- `(ngSubmit)` voert een method uit bij submit.

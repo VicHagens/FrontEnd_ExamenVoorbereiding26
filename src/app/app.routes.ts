@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Databinding } from './features/Databinding/databinding';
 import { Home } from './features/Home/home';
 import { InputOutput } from './features/InputOutput/input-output';
+import { ReactiveForm } from './features/ReactiveForm/reactive-form';
 import { StudentFeature } from './features/Student/student';
 
 export const routes: Routes = [
@@ -23,6 +24,10 @@ export const routes: Routes = [
   {
     path: 'input-output',
     component: InputOutput
+  },
+  {
+    path: 'reactive-form',
+    component: ReactiveForm
   },
   // Wildcard route:
   // Als een gebruiker naar een onbekende URL gaat, sturen we hem terug naar home.

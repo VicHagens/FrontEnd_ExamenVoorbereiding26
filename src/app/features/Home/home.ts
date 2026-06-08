@@ -25,6 +25,11 @@ export class Home {
       title: 'Input & Output',
       route: '/input-output',
       description: 'Inputparameters, parent to child en child to parent.'
+    },
+    {
+      title: 'Reactive Form',
+      route: '/reactive-form',
+      description: 'FormGroup, FormControl, Validators, validatie en submit.'
     }
   ];
 }

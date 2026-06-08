@@ -1,0 +1,126 @@
+<section class="mb-4">
+  <h2 class="h3">Reactive Form</h2>
+  <p class="mb-0">
+    Bij reactive forms staat de formulierstructuur in TypeScript. De HTML koppelt zich aan die
+    FormGroup met <code>[formGroup]</code> en <code>formControlName</code>.
+  </p>
+</section>
+
+<section class="row g-3">
+  <article class="col-lg-7">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Student toevoegen</h3>
+
+        <!--
+          [formGroup]:
+          Hiermee koppelen we deze HTML-form aan studentForm uit reactive-form.ts.
+
+          (ngSubmit):
+          Wanneer de gebruiker submit, voeren we saveStudent() uit.
+        -->
+        <form [formGroup]="studentForm" (ngSubmit)="saveStudent()" class="d-grid gap-3">
+          <div>
+            <label class="form-label fw-bold" for="voornaam">Voornaam</label>
+
+            <!--
+              formControlName:
+              Deze input is gekoppeld aan de FormControl voornaam.
+            -->
+            <input id="voornaam" class="form-control" type="text" formControlName="voornaam" />
+
+            @if (isInvalid('voornaam')) {
+              <p class="text-danger small mt-1 mb-0">Voornaam is verplicht en minstens 2 tekens.</p>
+            }
+          </div>
+
+          <div>
+            <label class="form-label fw-bold" for="achternaam">Achternaam</label>
+            <input id="achternaam" class="form-control" type="text" formControlName="achternaam" />
+
+            @if (isInvalid('achternaam')) {
+              <p class="text-danger small mt-1 mb-0">Achternaam is verplicht en minstens 2 tekens.</p>
+            }
+          </div>
+
+          <div>
+            <label class="form-label fw-bold" for="studentnummer">Studentnummer</label>
+            <input
+              id="studentnummer"
+              class="form-control"
+              type="text"
+              formControlName="studentnummer"
+              placeholder="r000001"
+            />
+
+            @if (isInvalid('studentnummer')) {
+              <p class="text-danger small mt-1 mb-0">
+                Studentnummer is verplicht en moet het formaat r000000 hebben.
+              </p>
+            }
+          </div>
+
+          <div>
+            <label class="form-label fw-bold" for="email">Email</label>
+            <input id="email" class="form-control" type="email" formControlName="email" />
+
+            @if (isInvalid('email')) {
+              <p class="text-danger small mt-1 mb-0">Geef een geldig emailadres in.</p>
+            }
+          </div>
+
+          <div>
+            <label class="form-label fw-bold" for="behaalde-punten">Behaalde punten</label>
+            <input
+              id="behaalde-punten"
+              class="form-control"
+              type="number"
+              formControlName="behaaldePunten"
+            />
+
+            @if (isInvalid('behaaldePunten')) {
+              <p class="text-danger small mt-1 mb-0">Punten moeten tussen 0 en 180 liggen.</p>
+            }
+          </div>
+
+          <!--
+            PROPERTY BINDING:
+            De knop is disabled zolang het formulier ongeldig is.
+          -->
+          <button type="submit" class="btn btn-primary" [disabled]="studentForm.invalid">
+            Student opslaan
+          </button>
+        </form>
+      </div>
+    </div>
+  </article>
+
+  <aside class="col-lg-5">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3 class="h5 card-title">Live formulierstatus</h3>
+        <p class="mb-1">
+          Formulier geldig:
+          <strong>{{ studentForm.valid }}</strong>
+        </p>
+        <p class="mb-0">Ingevulde waarde:</p>
+        <pre class="bg-light border rounded p-2 mt-2 mb-0">{{ studentForm.value | json }}</pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h3 class="h5 card-title">Laatst opgeslagen student</h3>
+
+        @if (savedStudent) {
+          <p class="mb-1">{{ savedStudent.voornaam }} {{ savedStudent.achternaam }}</p>
+          <p class="text-secondary mb-1">{{ savedStudent.studentnummer }}</p>
+          <p class="text-secondary mb-1">{{ savedStudent.email }}</p>
+          <strong>{{ savedStudent.behaaldePunten }} / 180 punten</strong>
+        } @else {
+          <p class="text-secondary mb-0">Er is nog geen student opgeslagen.</p>
+        }
+      </div>
+    </div>
+  </aside>
+</section>
