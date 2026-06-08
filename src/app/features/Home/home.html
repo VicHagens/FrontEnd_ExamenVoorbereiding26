@@ -1,0 +1,44 @@
+<section class="p-4 p-md-5 mb-4 rounded bg-light border">
+  <p class="text-uppercase fw-bold text-secondary small mb-2">Welkom</p>
+  <h2 class="display-6 fw-bold">Front-End Development oefeningen</h2>
+  <p class="lead mb-0">
+    Gebruik de toolbar bovenaan of de kaarten hieronder om naar een onderdeel te gaan.
+    Angular routing bepaalt welk component op deze plek wordt getoond.
+  </p>
+</section>
+
+<section class="row g-3">
+  <!--
+    @for:
+    De homepagina maakt automatisch een kaart per route.
+    Zo blijft de navigatie overzichtelijk wanneer er later oefeningen bijkomen.
+  -->
+  @for (lesson of lessons; track lesson.route) {
+    <article class="col-md-6 col-xl-4">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <h3 class="h5 card-title">{{ lesson.title }}</h3>
+          <p class="card-text text-secondary">{{ lesson.description }}</p>
+
+          <!--
+            routerLink:
+            Angular verandert de URL en laadt het component van die route in router-outlet.
+            Dit gebeurt zonder volledige browser refresh.
+          -->
+          <a class="btn btn-primary mt-auto" [routerLink]="lesson.route">Open onderdeel</a>
+        </div>
+      </div>
+    </article>
+  }
+</section>
+
+<section class="card mt-3">
+  <div class="card-body">
+    <h3 class="h5 card-title">Wat doet routing?</h3>
+    <p class="mb-0">
+      Routing koppelt een URL, zoals <code>/students</code>, aan een component.
+      De toolbar gebruikt <code>routerLink</code> om te navigeren en
+      <code>router-outlet</code> toont het juiste component.
+    </p>
+  </div>
+</section>

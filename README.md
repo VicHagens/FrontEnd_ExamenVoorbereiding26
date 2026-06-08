@@ -391,3 +391,133 @@ Child @Output() event -> parent method
 - `$event` bevat de waarde die de child heeft meegestuurd.
 - De parent beheert meestal de data.
 - De child toont data en meldt acties terug aan de parent.
+
+## 4. Routing
+
+Routing betekent dat Angular verschillende URLs koppelt aan verschillende componenten.
+Daardoor kan je meerdere pagina's tonen zonder dat de browser de volledige applicatie opnieuw laadt.
+
+In dit project staat de routing in:
+
+- `src/app/app.routes.ts`
+- `src/app/app.html`
+- `src/app/features/Home/home.ts`
+
+### Wat is er geimplementeerd?
+
+- Een homepagina op route `/`.
+- Een toolbar met nav-links naar de oefenonderdelen.
+- De titel in de toolbar linkt terug naar de homepagina.
+- Routes naar alle oefenonderdelen.
+- Een `router-outlet` waar Angular de actieve pagina toont.
+- Een wildcard route voor onbekende URLs.
+
+### Routes
+
+In `app.routes.ts` staat welke URL welk component moet tonen.
+
+Voorbeeld:
+
+```ts
+{
+  path: 'students',
+  component: StudentFeature
+}
+```
+
+Dit betekent:
+
+```text
+/students -> toon StudentFeature
+```
+
+De startpagina gebruikt een lege path:
+
+```ts
+{
+  path: '',
+  component: Home
+}
+```
+
+Dit betekent:
+
+```text
+/ -> toon Home
+```
+
+### routerLink
+
+Met `routerLink` maak je een Angular-link.
+
+Voorbeeld:
+
+```html
+<a routerLink="/students">Studenten</a>
+```
+
+Belangrijk:
+
+- Angular past de URL aan.
+- De pagina wordt niet volledig herladen.
+- Het juiste component verschijnt in `router-outlet`.
+
+### Actieve link met class binding
+
+In dit project gebruiken we geen `routerLinkActive`.
+We controleren zelf of een route actief is met een method in `app.ts`.
+
+Voorbeeld:
+
+```ts
+isActiveRoute(route: string): boolean {
+  return this.router.url === route;
+}
+```
+
+In de HTML gebruiken we gewone class binding:
+
+```html
+<a
+  [routerLink]="link.route"
+  [class.active]="isActiveRoute(link.route)"
+>
+  {{ link.label }}
+</a>
+```
+
+Als de method `true` teruggeeft, krijgt de link de class `active`.
+
+### router-outlet
+
+`router-outlet` is de plaats waar Angular het actieve route-component toont.
+
+Voorbeeld:
+
+```html
+<router-outlet />
+```
+
+Als de URL `/input-output` is, toont Angular daar het `InputOutput` component.
+
+### Wildcard route
+
+De wildcard route vangt onbekende URLs op:
+
+```ts
+{
+  path: '**',
+  redirectTo: ''
+}
+```
+
+Als iemand naar een route gaat die niet bestaat, stuurt Angular de gebruiker terug naar home.
+
+### Belangrijk voor het examen
+
+- Routing koppelt URLs aan componenten.
+- `routerLink` navigeert binnen Angular.
+- `[class.active]` kan gebruikt worden om de actieve link te markeren.
+- `router-outlet` toont het component van de actieve route.
+- `path: ''` is de startpagina.
+- `path: '**'` is de fallback voor onbekende routes.

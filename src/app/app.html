@@ -1,36 +1,41 @@
-<div class="container py-4">
-  <header class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-4 border-bottom pb-3 mb-4">
-    <div>
-      <p class="text-uppercase fw-bold text-secondary small mb-2">Angular oefeningen</p>
-      <h1 class="h2 mb-0">{{ appTitle }}</h1>
-    </div>
+<header class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
+  <div class="container">
+    <!--
+      routerLink:
+      Deze link navigeert naar de route '/' zonder de volledige pagina te herladen.
+    -->
+    <a class="navbar-brand fw-bold" routerLink="/">{{ appTitle }}</a>
 
-    <nav class="d-grid gap-2 app-topic-nav" aria-label="Onderdelen">
+    <nav class="navbar-nav flex-row flex-wrap gap-2 ms-lg-auto" aria-label="Hoofdnavigatie">
       <!--
         @for:
-        We tonen automatisch een link voor elk item in topics.
+        We tonen automatisch een nav-link voor elk item in navLinks.
         Dit is de nieuwe Angular-syntax, dus we gebruiken niet *ngFor.
       -->
-      @for (topic of topics; track topic.route) {
+      @for (link of navLinks; track link.route) {
         <a
-          class="border rounded p-3 text-decoration-none text-dark"
-          [routerLink]="topic.route"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link rounded px-3"
+          [routerLink]="link.route"
+          [class.active]="isActiveRoute(link.route)"
         >
-          <span class="d-block fw-bold">{{ topic.label }}</span>
-          <small class="text-secondary">{{ topic.description }}</small>
+          {{ link.label }}
         </a>
       }
     </nav>
-  </header>
+  </div>
+</header>
 
+<div class="container py-4">
   <main>
     <!--
       RouterOutlet:
       Hier plaatst Angular de pagina die bij de URL past.
-      /databinding toont dus de Databinding pagina.
+      '/' toont Home, '/databinding' toont Databinding, enzovoort.
     -->
     <router-outlet />
   </main>
+
+  <footer class="border-top mt-5 pt-3 text-secondary small">
+    Front-End Development examenvoorbereiding
+  </footer>
 </div>
