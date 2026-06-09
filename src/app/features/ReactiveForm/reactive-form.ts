@@ -23,6 +23,9 @@ export class ReactiveForm {
       Validators.pattern(/^r\d{6}$/)
     ]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    // Dit veld zit niet in het Student model.
+    // Het is enkel toegevoegd om een select met option en @for te tonen.
+    country: new FormControl(1),
     behaaldePunten: new FormControl(0, [
       Validators.required,
       Validators.min(0),
@@ -32,6 +35,12 @@ export class ReactiveForm {
 
   savedStudent?: Student;
   private nextId = 10;
+
+  countryList = [
+    { id: 1, name: 'Belgie' },
+    { id: 2, name: 'Nederland' },
+    { id: 3, name: 'Frankrijk' }
+  ];
 
   isInvalid(controlName: string): boolean {
     const control = this.studentForm.get(controlName);
@@ -69,6 +78,7 @@ export class ReactiveForm {
       achternaam: '',
       studentnummer: '',
       email: '',
+      country: 1,
       behaaldePunten: 0
     });
   }

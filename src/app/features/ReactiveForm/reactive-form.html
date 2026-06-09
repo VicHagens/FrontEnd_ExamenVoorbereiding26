@@ -70,6 +70,27 @@
           </div>
 
           <div>
+            <label class="form-label fw-bold" for="country">Land</label>
+
+            <!--
+              SELECT MET OPTIONS:
+              Ook een select kan aan een FormControl gekoppeld worden.
+              De opties komen uit countryList en worden getoond met @for.
+
+              [ngValue]:
+              Hiermee geven we de echte waarde van c.id door aan het formulier.
+              Dit veld is puur demonstratie en zit niet in het Student model.
+            -->
+            <select id="country" class="form-select" formControlName="country">
+              @for (c of countryList; track c.id) {
+                <option [ngValue]="c.id">
+                  {{ c.name }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div>
             <label class="form-label fw-bold" for="behaalde-punten">Behaalde punten</label>
             <input
               id="behaalde-punten"
