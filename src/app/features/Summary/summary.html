@@ -98,6 +98,7 @@
         <ul>
           <li>Service laag betekent: component vraagt data aan de service, niet rechtstreeks aan JSON.</li>
           <li><code>tap()</code> verandert data niet, <code>map()</code> verandert data wel.</li>
+          <li><code>filter()</code> haalt alleen items uit een array die voldoen aan een voorwaarde.</li>
           <li><code>async</code> subscribet automatisch op een Observable.</li>
           <li><code>catchError</code> voorkomt dat je app crasht bij API-fouten.</li>
         </ul>
@@ -105,7 +106,7 @@
         <h4 class="h6">Klein voorbeeld</h4>
         <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} HttpClient {{ '}' }} from '&#64;angular/common/http';
 import {{ '{' }} Injectable {{ '}' }} from '&#64;angular/core';
-import {{ '{' }} Observable, catchError, of, tap {{ '}' }} from 'rxjs';
+import {{ '{' }} Observable, catchError, map, of, tap {{ '}' }} from 'rxjs';
 import {{ '{' }} Student {{ '}' }} from '../models/student';
 
 &#64;Injectable({{ '{' }}
@@ -120,6 +121,16 @@ export class StudentService {{ '{' }}
     return this.http.get&lt;Student[]&gt;(this.apiUrl).pipe(
       tap((students) =&gt; console.log(students)),
       catchError((error) =&gt; of([]))
+    );
+  {{ '}' }}
+
+  filterStudents(searchText: string): Observable&lt;Student[]&gt; {{ '{' }}
+    return this.getStudents().pipe(
+      map((students) =&gt;
+        students.filter((student) =&gt;
+          student.voornaam.toLowerCase().includes(searchText.toLowerCase())
+        )
+      )
     );
   {{ '}' }}
 {{ '}' }}</code></pre>

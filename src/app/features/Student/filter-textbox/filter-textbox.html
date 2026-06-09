@@ -1,0 +1,17 @@
+<div class="mb-3">
+  <label class="form-label fw-bold" for="student-filter">Filter studenten</label>
+
+  <!--
+    TEMPLATE REFERENCE VARIABLE:
+    #txtSearch verwijst naar deze input.
+    Bij elke keyup sturen we txtSearch.value naar de parent via @Output().
+  -->
+  <input
+    id="student-filter"
+    class="form-control"
+    type="text"
+    placeholder="Zoek op naam, studentnummer, email of punten"
+    #txtSearch
+    (keyup)="onClicked(txtSearch.value)"
+  />
+</div>

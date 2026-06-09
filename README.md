@@ -185,6 +185,7 @@ De JSON-data staat in:
 - Gebruik van de Angular `async` pipe in de HTML.
 - Gebruik van Angular pipes zoals `uppercase` en `percent`.
 - Gebruik van `ngOnInit` als lifecycle hook.
+- Filteren van studenten met een filter textbox, `@Output()` en `filter()`.
 
 ### Singleton service
 
@@ -335,6 +336,30 @@ Kort:
 ```text
 tap() = kijken of nevenactie doen, data blijft hetzelfde
 map() = data omvormen naar iets nieuws
+```
+
+### filter()
+
+`filter()` gebruik je op een array.
+Het geeft een nieuwe lijst terug met alleen de items die voldoen aan een voorwaarde.
+
+Voorbeeld:
+
+```ts
+this.filteredStudents$ = this.students$.pipe(
+  map((students) =>
+    students.filter((student) =>
+      student.voornaam.toLowerCase().includes(searchText.toLowerCase())
+    )
+  )
+);
+```
+
+Belangrijk verschil:
+
+```text
+find() = zoekt 1 item
+filter() = zoekt meerdere items en geeft een lijst terug
 ```
 
 ### catchError
