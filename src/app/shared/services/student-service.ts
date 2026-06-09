@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Observable, catchError, map, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { Student, StudentBalance } from '../models/student';
 
 @Injectable({
@@ -24,7 +24,13 @@ export class StudentService {
     // Deze method haalt de studenten gewoon uit het JSON-bestand.
     // tap() toont wat er opgehaald is, maar past de data niet aan.
     return this.http.get<Student[]>(this.apiUrl).pipe(
-      tap((result) => console.log('Opgehaalde data:', result))
+      tap((result) => console.log('Opgehaalde data:', result)),
+      // catchError vangt fouten op, bijvoorbeeld een verkeerde URL of serverprobleem.
+      // of([]) geeft dan een lege lijst terug, zodat de app niet crasht.
+      catchError((error) => {
+        console.log('Fout bij ophalen studenten:', error);
+        return of([]);
+      })
     );
   }
 
@@ -37,7 +43,11 @@ export class StudentService {
     return this.http.get<Student[]>(this.apiUrl).pipe(
       tap((students) => console.log('Alle studenten voor getStudentById:', students)),
       map((students) => students.find((student) => student.id === id)),
-      tap((student) => console.log('Gevonden student:', student))
+      tap((student) => console.log('Gevonden student:', student)),
+      catchError((error) => {
+        console.log('Fout bij ophalen student op id:', error);
+        return of(undefined);
+      })
     );
   }
 
@@ -71,7 +81,11 @@ export class StudentService {
 
       // Deze tap() toont de aangepaste data na de map().
       // Zo zie je duidelijk het verschil tussen tap() en map().
-      tap((studentsWithBalance) => console.log('Studenten met berekende balans:', studentsWithBalance))
+      tap((studentsWithBalance) => console.log('Studenten met berekende balans:', studentsWithBalance)),
+      catchError((error) => {
+        console.log('Fout bij ophalen studenten met balans:', error);
+        return of([]);
+      })
     );
   }
 

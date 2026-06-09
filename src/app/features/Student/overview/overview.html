@@ -20,10 +20,18 @@
       -->
       @for (student of students; track student.id) {
         <section class="border rounded p-3">
-          <h4 class="h6 mb-2">{{ student.voornaam }} {{ student.achternaam }}</h4>
+          <!--
+            ANGULAR PIPE:
+            uppercase verandert alleen de weergave in de HTML.
+            De data zelf verandert niet.
+          -->
+          <h4 class="h6 mb-2">{{ student.voornaam }} {{ student.achternaam | uppercase }}</h4>
           <p class="text-secondary mb-1">{{ student.studentnummer }}</p>
           <p class="text-secondary mb-2">{{ student.email }}</p>
           <strong>{{ student.behaaldePunten }} / 180 punten</strong>
+          <a class="btn btn-outline-primary btn-sm d-block mt-2" [routerLink]="['/students', student.id]">
+            Open detail via route parameter
+          </a>
         </section>
       }
     </div>

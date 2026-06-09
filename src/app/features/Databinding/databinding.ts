@@ -34,6 +34,10 @@ export class Databinding {
   // Deze teller wordt aangepast wanneer de gebruiker op een knop klikt.
   clickCount = 0;
 
+  // TEMPLATE REFERENCE VARIABLE:
+  // Deze tekst vullen we met de waarde uit een input die we in de HTML aanspreken met #quickName.
+  templateReferenceMessage = 'Nog geen waarde opgehaald.';
+
   // Deze lijst gebruiken we in de HTML met de nieuwe @for syntax.
   // @for is de moderne Angular-manier om over een lijst te loopen.
   bindingExamples = ['One-way binding', 'Event binding', 'Two-way binding', 'Attribute binding'];
@@ -62,5 +66,10 @@ export class Databinding {
     } else {
       this.textColor = 'seagreen';
     }
+  }
+
+  showTemplateReferenceValue(value: string) {
+    // De waarde komt rechtstreeks uit de HTML input via een template reference variable.
+    this.templateReferenceMessage = `Waarde uit template reference variable: ${value}`;
   }
 }

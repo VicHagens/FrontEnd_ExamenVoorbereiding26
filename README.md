@@ -145,6 +145,7 @@ We gebruiken dus niet de oudere `*ngFor`.
 - `[disabled]` is property binding.
 - `[style.color]` is style binding.
 - `@if` en `@for` zijn de moderne Angular control flow syntax.
+- `#quickName` is een template reference variable waarmee je een HTML-element lokaal kan aanspreken.
 
 ## 2. Singleton, service laag, model en JSON
 
@@ -178,9 +179,12 @@ De JSON-data staat in:
 - Een singleton service met `providedIn: 'root'`.
 - Data ophalen uit een JSON-bestand met `HttpClient`.
 - Een student ophalen op id met `getStudentById(id)`.
+- Error handling met `catchError`.
 - Een overview zonder RxJS `.pipe()`.
 - Een overview met RxJS `.pipe(tap(), map())`.
 - Gebruik van de Angular `async` pipe in de HTML.
+- Gebruik van Angular pipes zoals `uppercase` en `percent`.
+- Gebruik van `ngOnInit` als lifecycle hook.
 
 ### Singleton service
 
@@ -333,6 +337,62 @@ tap() = kijken of nevenactie doen, data blijft hetzelfde
 map() = data omvormen naar iets nieuws
 ```
 
+### catchError
+
+`catchError` vangt fouten op bij een Observable.
+Dat is belangrijk bij echte API's, want een request kan mislukken.
+
+Voorbeeld:
+
+```ts
+return this.http.get<Student[]>(this.apiUrl).pipe(
+  tap((students) => console.log(students)),
+  catchError((error) => {
+    console.log('Fout:', error);
+    return of([]);
+  })
+);
+```
+
+Hier geeft `of([])` een lege lijst terug.
+Zo blijft de app werken, zelfs wanneer het ophalen van data mislukt.
+
+### ngOnInit
+
+`ngOnInit` is een lifecycle hook.
+Angular voert deze method uit wanneer het component wordt opgestart.
+
+Voorbeeld:
+
+```ts
+ngOnInit() {
+  this.loadStudentById(1);
+}
+```
+
+Je gebruikt `ngOnInit` vaak om startdata te laden.
+
+### Angular pipes
+
+Angular pipes passen de weergave van data aan in de template.
+De originele data verandert niet.
+
+Voorbeelden:
+
+```html
+{{ student.achternaam | uppercase }}
+{{ calculatePercentage(student.behaaldePunten) | percent }}
+```
+
+Kort:
+
+```text
+uppercase = tekst in hoofdletters tonen
+percent = getal als percentage tonen
+async = waarde uit Observable halen
+json = object leesbaar tonen
+```
+
 ### Belangrijk voor het examen
 
 - Een service zet data en logica apart van componenten.
@@ -343,6 +403,8 @@ map() = data omvormen naar iets nieuws
 - De `async` pipe hoort bij Angular templates en leest waarden uit een Observable.
 - `tap()` verandert data niet.
 - `map()` verandert data wel naar een nieuwe vorm.
+- `catchError()` vangt fouten op.
+- `ngOnInit()` wordt uitgevoerd wanneer het component start.
 
 ### Echte API: GET, POST, PUT, PATCH en DELETE
 
@@ -613,6 +675,38 @@ Voorbeeld:
 
 Als de URL `/input-output` is, toont Angular daar het `InputOutput` component.
 
+### Route parameters en ActivatedRoute
+
+Route parameters gebruik je wanneer een deel van de URL een waarde is.
+
+Voorbeeld route:
+
+```ts
+{
+  path: 'students/:id',
+  component: StudentDetail
+}
+```
+
+Voorbeeld URL:
+
+```text
+/students/1
+```
+
+In het component lees je de `id` met `ActivatedRoute`:
+
+```ts
+constructor(private route: ActivatedRoute) {}
+
+ngOnInit() {
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+}
+```
+
+Dit is handig voor detailpagina's.
+Bijvoorbeeld: klik op student 1 en toon de detailpagina voor student 1.
+
 ### Wildcard route
 
 De wildcard route vangt onbekende URLs op:
@@ -634,6 +728,29 @@ Als iemand naar een route gaat die niet bestaat, stuurt Angular de gebruiker ter
 - `router-outlet` toont het component van de actieve route.
 - `path: ''` is de startpagina.
 - `path: '**'` is de fallback voor onbekende routes.
+- `ActivatedRoute` gebruik je om route parameters zoals `id` uit te lezen.
+
+## Extra: template reference variable
+
+Een template reference variable geeft een HTML-element een lokale naam in de template.
+
+Voorbeeld:
+
+```html
+<input #quickName />
+<button (click)="showTemplateReferenceValue(quickName.value)">
+  Lees waarde
+</button>
+```
+
+`#quickName` verwijst naar de input.
+Met `quickName.value` lees je de huidige waarde uit de input.
+
+Belangrijk:
+
+- Het werkt lokaal in de template.
+- Het is handig voor kleine voorbeelden.
+- Voor grotere formulieren gebruik je meestal template-driven forms of reactive forms.
 
 ## 5. Reactive Form
 
@@ -757,3 +874,66 @@ De oefening staat in:
 
 Deze pagina toont per onderdeel een Bootstrap-card met de belangrijkste examenpunten.
 Zo kan je de samenvatting bekijken zonder de README apart te openen.
+
+## 7. Angular CLI commandos
+
+Handige commandos voor Angular-projecten.
+
+### Project starten
+
+```bash
+ng new student-exam-prep
+npm install
+npm install bootstrap
+ng serve -o
+npm run build
+```
+
+Kort:
+
+- `ng new` maakt een nieuw Angular-project.
+- `npm install` installeert dependencies uit `package.json`.
+- `npm install bootstrap` voegt Bootstrap toe.
+- `ng serve -o` start de app en opent de browser.
+- `npm run build` controleert of het project correct buildt.
+
+### Environments
+
+```bash
+ng generate environments
+```
+
+Dit maakt environment-bestanden.
+Daarin zet je bijvoorbeeld een `apiUrl`, zodat je service niet overal hardcoded URLs gebruikt.
+
+### Service en model
+
+```bash
+ng g s shared/services/student
+ng g class shared/models/Student
+```
+
+Kort:
+
+- `ng g s` maakt een service.
+- `ng g class` maakt een class, bijvoorbeeld een model.
+- `shared/services` is een logische plaats voor gedeelde services.
+- `shared/models` is een logische plaats voor models.
+
+### Feature componenten
+
+```bash
+ng g c features/Student/Overview
+ng g c features/Student/OverviewBalance
+ng g c features/Student/StudentDetail
+ng g c features/Databinding
+ng g c features/InputOutput
+ng g c features/ReactiveForm
+ng g c features/Summary
+```
+
+Kort:
+
+- `ng g c` maakt een component.
+- `features/...` gebruik je voor onderdelen/pagina's van je applicatie.
+- Voor schoolgerichte oefeningen kan je alles rond `Student` groeperen in `features/Student`.

@@ -12,31 +12,6 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 export class App {
   appTitle = 'Front-End examenvoorbereiding';
 
-  // Deze lijst bepaalt welke links in de toolbar staan.
-  // routerLink gebruikt de route om naar het juiste component te navigeren.
-  navLinks = [
-    {
-      label: 'Databinding',
-      route: '/databinding',
-    },
-    {
-      label: 'Studenten',
-      route: '/students',
-    },
-    {
-      label: 'Input & Output',
-      route: '/input-output',
-    },
-    {
-      label: 'Reactive Form',
-      route: '/reactive-form',
-    },
-    {
-      label: 'Samenvatting',
-      route: '/summary',
-    }
-  ];
-
   constructor(private router: Router) {}
 
   isActiveRoute(route: string): boolean {

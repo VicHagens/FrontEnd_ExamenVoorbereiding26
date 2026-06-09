@@ -1,12 +1,13 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Student } from '../../../shared/models/student';
 import { StudentService } from '../../../shared/services/student-service';
 
 @Component({
   selector: 'app-overview',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, UpperCasePipe, RouterLink],
   templateUrl: './overview.html',
   styleUrl: './overview.css'
 })

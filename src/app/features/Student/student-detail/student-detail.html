@@ -1,0 +1,35 @@
+<section class="mb-4">
+  <a class="btn btn-outline-secondary btn-sm mb-3" routerLink="/students">Terug naar studenten</a>
+  <h2 class="h3">Student detail via route parameter</h2>
+  <p class="mb-0">
+    Deze pagina gebruikt <code>ActivatedRoute</code> om de <code>id</code> uit de URL te lezen.
+    Daarna vraagt ze via de service de juiste student op.
+  </p>
+  <p class="mb-0">Wanneer in de URL het id manueel wordt aangepast, zal dit geen error 404 meer geven. </p>
+</section>
+
+<section class="card">
+  <div class="card-body">
+    <!--
+      ASYNC PIPE:
+      student$ is een Observable.
+      De async pipe haalt de student eruit voor gebruik in de template.
+    -->
+    @if (student$ | async; as student) {
+      <h3 class="h5 card-title">{{ student.voornaam }} {{ student.achternaam | uppercase }}</h3>
+      <p class="text-secondary mb-1">Route id: {{ studentId }}</p>
+      <p class="text-secondary mb-1">{{ student.studentnummer }}</p>
+      <p class="text-secondary mb-1">{{ student.email }}</p>
+      <p class="mb-1">Punten: {{ student.behaaldePunten }} / {{ maxPunten }}</p>
+
+      <!--
+        ANGULAR PIPE:
+        percent toont een getal als percentage.
+        calculatePercentage() geeft bijvoorbeeld 0.78 terug, de pipe toont 78%.
+      -->
+      <strong>Voortgang: {{ calculatePercentage(student.behaaldePunten) | percent }}</strong>
+    } @else {
+      <p class="text-secondary mb-0">Geen student gevonden voor id {{ studentId }}.</p>
+    }
+  </div>
+</section>

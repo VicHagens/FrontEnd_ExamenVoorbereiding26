@@ -8,28 +8,65 @@
 </section>
 
 <section class="row g-3">
-  <!--
-    @for:
-    De homepagina maakt automatisch een kaart per route.
-    Zo blijft de navigatie overzichtelijk wanneer er later oefeningen bijkomen.
-  -->
-  @for (lesson of lessons; track lesson.route) {
-    <article class="col-md-6 col-xl-4">
-      <div class="card h-100">
-        <div class="card-body d-flex flex-column">
-          <h3 class="h5 card-title">{{ lesson.title }}</h3>
-          <p class="card-text text-secondary">{{ lesson.description }}</p>
-
-          <!--
-            routerLink:
-            Angular verandert de URL en laadt het component van die route in router-outlet.
-            Dit gebeurt zonder volledige browser refresh.
-          -->
-          <a class="btn btn-primary mt-auto" [routerLink]="lesson.route">Open onderdeel</a>
-        </div>
+  <article class="col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title">Databinding</h3>
+        <p class="card-text text-secondary">
+          One-way binding, event binding, two-way binding en attribute binding.
+        </p>
+        <a class="btn btn-primary mt-auto" routerLink="/databinding">Open onderdeel</a>
       </div>
-    </article>
-  }
+    </div>
+  </article>
+
+  <article class="col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title">Studenten service laag</h3>
+        <p class="card-text text-secondary">
+          Singleton service, model, JSON, environment, RxJS pipe en async pipe.
+        </p>
+        <a class="btn btn-primary mt-auto" routerLink="/students">Open onderdeel</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title">Input & Output</h3>
+        <p class="card-text text-secondary">
+          Inputparameters, parent to child en child to parent.
+        </p>
+        <a class="btn btn-primary mt-auto" routerLink="/input-output">Open onderdeel</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title">Reactive Form</h3>
+        <p class="card-text text-secondary">
+          FormGroup, FormControl, Validators, validatie en submit.
+        </p>
+        <a class="btn btn-primary mt-auto" routerLink="/reactive-form">Open onderdeel</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title">Samenvatting</h3>
+        <p class="card-text text-secondary">
+          Een mooiere site-versie van de README met alle onderdelen kort op een rij.
+        </p>
+        <a class="btn btn-primary mt-auto" routerLink="/summary">Open onderdeel</a>
+      </div>
+    </div>
+  </article>
 </section>
 
 <section class="card mt-3">

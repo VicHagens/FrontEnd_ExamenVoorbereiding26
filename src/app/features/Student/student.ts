@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Student } from '../../shared/models/student';
 import { StudentService } from '../../shared/services/student-service';
@@ -21,6 +21,12 @@ export class StudentFeature {
   selectedStudent$?: Observable<Student | undefined>;
 
   constructor(private studentService: StudentService) {}
+
+  ngOnInit() {
+    // ngOnInit wordt uitgevoerd wanneer Angular deze component klaarzet.
+    // Dit is een klassieke plaats om startdata te laden.
+    this.loadStudentById(1);
+  }
 
   loadStudentById(id: number) {
     // Hier roept de component de service laag aan.

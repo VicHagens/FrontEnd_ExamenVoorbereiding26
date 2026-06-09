@@ -8,19 +8,24 @@
 
     <nav class="navbar-nav flex-row flex-wrap gap-2 ms-lg-auto" aria-label="Hoofdnavigatie">
       <!--
-        @for:
-        We tonen automatisch een nav-link voor elk item in navLinks.
-        Dit is de nieuwe Angular-syntax, dus we gebruiken niet *ngFor.
+        routerLink navigeert binnen Angular zonder volledige page refresh.
+        [class.active] geeft de actieve link Bootstrap-styling.
       -->
-      @for (link of navLinks; track link.route) {
-        <a
-          class="nav-link rounded px-3"
-          [routerLink]="link.route"
-          [class.active]="isActiveRoute(link.route)"
-        >
-          {{ link.label }}
-        </a>
-      }
+      <a class="nav-link rounded px-3" routerLink="/databinding" [class.active]="isActiveRoute('/databinding')">
+        Databinding
+      </a>
+      <a class="nav-link rounded px-3" routerLink="/students" [class.active]="isActiveRoute('/students')">
+        Studenten
+      </a>
+      <a class="nav-link rounded px-3" routerLink="/input-output" [class.active]="isActiveRoute('/input-output')">
+        Input & Output
+      </a>
+      <a class="nav-link rounded px-3" routerLink="/reactive-form" [class.active]="isActiveRoute('/reactive-form')">
+        Reactive Form
+      </a>
+      <a class="nav-link rounded px-3" routerLink="/summary" [class.active]="isActiveRoute('/summary')">
+        Samenvatting
+      </a>
     </nav>
   </div>
 </header>

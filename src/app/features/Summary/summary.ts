@@ -15,24 +15,29 @@ export class Summary {
       details: [
         'Met databinding kan Angular waarden uit je component tonen of gebruiken in de HTML.',
         'Je gebruikt het ook om te reageren op acties van de gebruiker, zoals klikken of typen.',
-        'In onze les valt property binding en style binding mee onder attribute binding.'
+        'In onze les valt property binding en style binding mee onder attribute binding.',
+        'Een template reference variable geeft een HTML-element een lokale naam in de template.'
       ],
       syntax: [
         '{{ pageTitle }}',
         '(click)="increaseClickCount()"',
         '[(ngModel)]="studentName"',
         '[disabled]="isResetDisabled"',
-        '[style.color]="textColor"'
+        '[style.color]="textColor"',
+        '#quickName',
+        'quickName.value'
       ],
       points: [
         '{{ ... }} toont data uit TypeScript.',
         '(click) voert een method uit na een gebruikersactie.',
         '[(ngModel)] koppelt een input in twee richtingen.',
-        '[disabled] en [style.color] tonen property/style binding volgens de les.'
+        '[disabled] en [style.color] tonen property/style binding volgens de les.',
+        '#quickName laat je een input rechtstreeks aanspreken in dezelfde template.'
       ],
       examTips: [
         'Ken het verschil tussen data tonen en reageren op events.',
-        'Vergeet niet dat [(ngModel)] FormsModule nodig heeft.'
+        'Vergeet niet dat [(ngModel)] FormsModule nodig heeft.',
+        'Template reference variables zijn handig voor kleine lokale acties zonder extra property.'
       ],
       codeExampleTitle: 'Klein databinding voorbeeld',
       codeExample: `export class Databinding {
@@ -49,6 +54,8 @@ export class Summary {
 <!-- HTML -->
 <p>Welkom, {{ studentName }}</p>
 <input [(ngModel)]="studentName" />
+<input #quickName />
+<button (click)="showTemplateReferenceValue(quickName.value)">Lees</button>
 <button (click)="increaseClickCount()">Klik</button>
 <button [disabled]="isResetDisabled">Reset</button>`
     },
@@ -58,14 +65,19 @@ export class Summary {
       details: [
         'Een component moet vooral data tonen en gebruikersacties opvangen.',
         'Een service wordt gebruikt om data op te halen, te bewaren of te verwerken.',
-        'Met providedIn: root maakt Angular normaal 1 gedeelde instantie van de service.'
+        'Met providedIn: root maakt Angular normaal 1 gedeelde instantie van de service.',
+        'ngOnInit is een lifecycle hook die uitgevoerd wordt wanneer het component start.'
       ],
       syntax: [
         '@Injectable({ providedIn: \'root\' })',
+        'ngOnInit()',
         'constructor(private http: HttpClient) {}',
         'this.http.get<Student[]>(this.apiUrl)',
         '.pipe(tap(...), map(...))',
-        'students$ | async'
+        'students$ | async',
+        'catchError((error) => of([]))',
+        'uppercase',
+        'percent'
       ],
       points: [
         'providedIn: root maakt de service een singleton.',
@@ -73,12 +85,16 @@ export class Summary {
         'HttpClient haalt data op uit students.json.',
         'getStudentById(id) toont hoe je 1 item kan ophalen.',
         'tap() kijkt naar data, map() vormt data om.',
-        'De async pipe leest waarden uit een Observable in de template.'
+        'De async pipe leest waarden uit een Observable in de template.',
+        'catchError vangt fouten van een HTTP-request op.',
+        'Angular pipes zoals uppercase en percent passen alleen de weergave aan.'
       ],
       examTips: [
         'Service laag betekent: component vraagt data aan de service, niet rechtstreeks aan JSON.',
         'tap() verandert data niet, map() verandert data wel.',
-        'async pipe subscribet automatisch op een Observable.'
+        'async pipe subscribet automatisch op een Observable.',
+        'Gebruik ngOnInit vaak om startdata te laden.',
+        'Gebruik catchError om je app niet te laten crashen bij API-fouten.'
       ],
       codeExampleTitle: 'Klein service voorbeeld',
       codeExample: `@Injectable({
@@ -91,7 +107,11 @@ export class StudentService {
 
   getStudents(): Observable<Student[]> {
     return this.http.get<Student[]>(this.apiUrl).pipe(
-      tap((students) => console.log('Studenten:', students))
+      tap((students) => console.log('Studenten:', students)),
+      catchError((error) => {
+        console.log(error);
+        return of([]);
+      })
     );
   }
 }
@@ -102,7 +122,7 @@ students$ = this.studentService.getStudents();
 <!-- HTML -->
 @if (students$ | async; as students) {
   @for (student of students; track student.id) {
-    <p>{{ student.voornaam }}</p>
+    <p>{{ student.voornaam }} {{ student.achternaam | uppercase }}</p>
   }
 }`
     },
@@ -231,31 +251,38 @@ sendStudentToParent() {
       details: [
         'Routing zorgt ervoor dat je meerdere paginas kan tonen binnen dezelfde Angular app.',
         'De browser hoeft niet volledig te herladen wanneer je naar een andere route gaat.',
-        'De URL bepaalt welk component Angular in router-outlet plaatst.'
+        'De URL bepaalt welk component Angular in router-outlet plaatst.',
+        'Met route parameters kan je een waarde zoals een id uit de URL lezen.'
       ],
       syntax: [
         '{ path: \'students\', component: StudentFeature }',
+        '{ path: \'students/:id\', component: StudentDetail }',
         '<a routerLink="/students">Studenten</a>',
         '<router-outlet />',
         '{ path: \'**\', redirectTo: \'\' }',
-        '[class.active]="isActiveRoute(link.route)"'
+        '[class.active]="isActiveRoute(link.route)"',
+        'ActivatedRoute',
+        'this.route.snapshot.paramMap.get(\'id\')'
       ],
       points: [
         'routerLink navigeert binnen Angular zonder volledige refresh.',
         'router-outlet toont het component van de actieve route.',
         "path: '' is de homepagina.",
-        "path: '**' vangt onbekende routes op."
+        "path: '**' vangt onbekende routes op.",
+        'ActivatedRoute leest route parameters zoals id uit de URL.'
       ],
       examTips: [
         'Routes staan centraal in app.routes.ts.',
         'routerLink gebruik je in plaats van gewone href voor interne Angular navigatie.',
-        'router-outlet is de plaats waar het actieve component verschijnt.'
+        'router-outlet is de plaats waar het actieve component verschijnt.',
+        'Route parameters zijn ideaal voor detailpagina’s, bijvoorbeeld /students/1.'
       ],
       codeExampleTitle: 'Klein routing voorbeeld',
       codeExample: `// app.routes.ts
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'students', component: StudentFeature },
+  { path: 'students/:id', component: StudentDetail },
   { path: '**', redirectTo: '' }
 ];
 
@@ -274,6 +301,12 @@ export const routes: Routes = [
 // app.ts
 isActiveRoute(route: string): boolean {
   return this.router.url === route;
+}
+
+// student-detail.ts
+ngOnInit() {
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+  this.student$ = this.studentService.getStudentById(id);
 }`
     },
     {
@@ -325,6 +358,66 @@ saveStudent() {
   <input formControlName="email" />
   <button [disabled]="studentForm.invalid">Opslaan</button>
 </form>`
+    },
+    {
+      title: 'Angular CLI commandos',
+      description: 'Handige terminalcommandos om projecten, componenten, services en models te maken.',
+      details: [
+        'Met de Angular CLI kan je snel bestanden genereren volgens de Angular-structuur.',
+        'Gebruik npm install om dependencies te installeren.',
+        'Gebruik ng serve -o om de applicatie lokaal te starten en automatisch in de browser te openen.'
+      ],
+      syntax: [
+        'npm install',
+        'ng serve -o',
+        'npm run build',
+        'ng g c features/Student/Overview',
+        'ng g s shared/services/student',
+        'ng g class shared/models/Student'
+      ],
+      points: [
+        'ng new maakt een nieuw Angular-project.',
+        'ng g c maakt een component.',
+        'ng g s maakt een service.',
+        'ng g class maakt een class, bijvoorbeeld een model.',
+        'ng generate environments maakt environment-bestanden.'
+      ],
+      examTips: [
+        'Gebruik duidelijke mappen zoals features, shared/services en shared/models.',
+        'Services horen meestal in shared/services wanneer meerdere onderdelen ze kunnen gebruiken.',
+        'Models horen in shared/models zodat services en components dezelfde datastructuur gebruiken.'
+      ],
+      codeExampleTitle: 'Studentgerichte commandos',
+      codeExample: `# Nieuw project maken
+ng new student-exam-prep
+
+# Dependencies installeren
+npm install
+npm install bootstrap
+
+# App starten
+ng serve -o
+
+# Build controleren
+npm run build
+
+# Environment-bestanden maken
+ng generate environments
+
+# Student service en model
+ng g s shared/services/student
+ng g class shared/models/Student
+
+# Student feature componenten
+ng g c features/Student/Overview
+ng g c features/Student/OverviewBalance
+ng g c features/Student/StudentDetail
+
+# Andere examenonderdelen
+ng g c features/Databinding
+ng g c features/InputOutput
+ng g c features/ReactiveForm
+ng g c features/Summary`
     }
   ];
 }

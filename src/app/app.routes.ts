@@ -3,6 +3,7 @@ import { Databinding } from './features/Databinding/databinding';
 import { Home } from './features/Home/home';
 import { InputOutput } from './features/InputOutput/input-output';
 import { ReactiveForm } from './features/ReactiveForm/reactive-form';
+import { StudentDetail } from './features/Student/student-detail/student-detail';
 import { StudentFeature } from './features/Student/student';
 import { Summary } from './features/Summary/summary';
 
@@ -21,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'students',
     component: StudentFeature
+  },
+  {
+    path: 'students/:id',
+    component: StudentDetail
   },
   {
     path: 'input-output',

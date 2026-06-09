@@ -96,6 +96,35 @@
 
 <section class="card mt-3">
   <div class="card-body">
+    <h3 class="h5 card-title">Template reference variable</h3>
+    <p class="text-secondary">
+      Met <code>#quickName</code> geven we een HTML-element een lokale naam in de template.
+      Daarna kunnen we bijvoorbeeld <code>quickName.value</code> doorgeven aan een method.
+    </p>
+
+    <label class="form-label fw-bold" for="quick-name">Snelle naam</label>
+    <div class="input-group">
+      <!--
+        TEMPLATE REFERENCE VARIABLE:
+        #quickName verwijst naar deze input.
+        Bij de klik gebruiken we quickName.value om de ingevulde tekst te lezen.
+      -->
+      <input id="quick-name" class="form-control" type="text" #quickName />
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="showTemplateReferenceValue(quickName.value)"
+      >
+        Lees waarde
+      </button>
+    </div>
+
+    <p class="mt-2 mb-0">{{ templateReferenceMessage }}</p>
+  </div>
+</section>
+
+<section class="card mt-3">
+  <div class="card-body">
     <h3 class="h5 card-title">Moderne Angular syntax</h3>
 
     <!--
