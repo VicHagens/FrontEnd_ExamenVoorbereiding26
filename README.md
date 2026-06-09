@@ -367,6 +367,26 @@ Daardoor kan je meestal meer doen dan alleen lezen.
 Voorbeelden:
 
 ```ts
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Student } from '../models/student';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StudentService {
+  apiUrl = environment.apiUrl + '/api/Students';
+
+  constructor(private http: HttpClient) {}
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
 getStudents(): Observable<Student[]> {
   return this.http.get<Student[]>(this.apiUrl);
 }
@@ -384,7 +404,8 @@ updateStudent(id: number, student: Student): Observable<Student> {
 }
 
 deleteStudent(id: number): Observable<void> {
-  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  return this.http.delete<void>(`${this.apiUrl}/${id}`, this.httpOptions);
+}
 }
 ```
 
