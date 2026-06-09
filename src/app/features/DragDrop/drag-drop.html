@@ -1,0 +1,75 @@
+<section class="mb-4">
+  <h2 class="h3">Drag & Drop</h2>
+  <p class="mb-0">
+    Deze pagina gebruikt Angular CDK. De student-speler kan alleen binnen het veld gesleept worden
+    door <code>cdkDragBoundary</code>.
+  </p>
+</section>
+
+<section class="row g-3">
+  <article class="col-lg-8">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Sleep de student-speler</h3>
+
+        <!--
+          cdkDragBoundary:
+          De speler mag alleen binnen .pitch-boundary bewegen.
+
+          cdkDrag:
+          Maakt dit element sleepbaar.
+
+          (cdkDragEnded):
+          Wordt uitgevoerd wanneer de gebruiker stopt met slepen.
+        -->
+        <div class="pitch-boundary">
+          <div
+            class="player"
+            cdkDragBoundary=".pitch-boundary"
+            cdkDrag
+            (cdkDragEnded)="onDragEnded($event)"
+          >
+            <span>ST</span>
+          </div>
+        </div>
+
+        <p class="text-secondary mt-3 mb-0">Laatste positie: {{ lastPosition }}</p>
+      </div>
+    </div>
+  </article>
+
+  <aside class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Positie kiezen</h3>
+
+        <form [formGroup]="positionForm">
+          <div class="form-group">
+            <label class="form-label fw-bold" for="positionId">Position:</label>
+
+            <!--
+              SELECT MET ASYNC EN @for:
+              positions$ is een Observable.
+              De async pipe haalt de posities eruit.
+              @for maakt daarna een option per positie.
+            -->
+            <select formControlName="positionId" id="positionId" class="form-control">
+              <option value="">- Select -</option>
+              @if (positions$ | async; as positions) {
+                @for (position of positions; track position.id) {
+                  <option [value]="position.id">
+                    {{ position.name }}
+                  </option>
+                }
+              }
+            </select>
+          </div>
+        </form>
+
+        <p class="text-secondary mt-3 mb-0">
+          Gekozen positie-id: {{ positionForm.value.positionId || 'geen' }}
+        </p>
+      </div>
+    </div>
+  </aside>
+</section>

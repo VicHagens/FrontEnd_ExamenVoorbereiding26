@@ -875,7 +875,60 @@ De oefening staat in:
 Deze pagina toont per onderdeel een Bootstrap-card met de belangrijkste examenpunten.
 Zo kan je de samenvatting bekijken zonder de README apart te openen.
 
-## 7. Angular CLI commandos
+## 7. Drag & Drop
+
+Drag & Drop is toegevoegd als aparte feature:
+
+- `src/app/features/DragDrop/drag-drop.ts`
+- `src/app/features/DragDrop/drag-drop.html`
+- `src/app/features/DragDrop/drag-drop.css`
+
+Deze oefening gebruikt Angular CDK.
+
+Installatie:
+
+```bash
+npm install @angular/cdk@^21.1.0
+```
+
+Belangrijke syntax:
+
+```html
+<div class="pitch-boundary">
+  <div
+    class="player"
+    cdkDragBoundary=".pitch-boundary"
+    cdkDrag
+    (cdkDragEnded)="onDragEnded($event)"
+  >
+    ST
+  </div>
+</div>
+```
+
+Kort:
+
+- `cdkDrag` maakt een element sleepbaar.
+- `cdkDragBoundary` beperkt het slepen tot een container.
+- `(cdkDragEnded)` voert een method uit wanneer het slepen stopt.
+- `DragDropModule` moet geimporteerd zijn in het component.
+
+De feature bevat ook een selectveld met posities:
+
+```html
+<select formControlName="positionId">
+  <option value="">- Select -</option>
+  @if (positions$ | async; as positions) {
+    @for (position of positions; track position.id) {
+      <option [value]="position.id">
+        {{ position.name }}
+      </option>
+    }
+  }
+</select>
+```
+
+## 8. Angular CLI commandos
 
 Handige commandos voor Angular-projecten.
 
@@ -885,6 +938,7 @@ Handige commandos voor Angular-projecten.
 ng new student-exam-prep
 npm install
 npm install bootstrap
+npm install @angular/cdk@^21.1.0
 ng serve -o
 npm run build
 ```
@@ -894,6 +948,7 @@ Kort:
 - `ng new` maakt een nieuw Angular-project.
 - `npm install` installeert dependencies uit `package.json`.
 - `npm install bootstrap` voegt Bootstrap toe.
+- `npm install @angular/cdk@^21.1.0` voegt Angular CDK toe voor drag and drop.
 - `ng serve -o` start de app en opent de browser.
 - `npm run build` controleert of het project correct buildt.
 
@@ -929,6 +984,7 @@ ng g c features/Student/StudentDetail
 ng g c features/Databinding
 ng g c features/InputOutput
 ng g c features/ReactiveForm
+ng g c features/DragDrop
 ng g c features/Summary
 ```
 

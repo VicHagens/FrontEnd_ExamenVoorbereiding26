@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Databinding } from './features/Databinding/databinding';
+import { DragDrop } from './features/DragDrop/drag-drop';
 import { Home } from './features/Home/home';
 import { InputOutput } from './features/InputOutput/input-output';
 import { ReactiveForm } from './features/ReactiveForm/reactive-form';
@@ -34,6 +35,10 @@ export const routes: Routes = [
   {
     path: 'reactive-form',
     component: ReactiveForm
+  },
+  {
+    path: 'drag-drop',
+    component: DragDrop
   },
   {
     path: 'summary',

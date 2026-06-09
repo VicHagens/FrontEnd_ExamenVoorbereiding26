@@ -7,62 +7,356 @@
 </section>
 
 <section class="row g-3">
-  <!--
-    @for:
-    We maken automatisch een Bootstrap-card per onderdeel.
-    De inhoud komt uit de sections array in summary.ts.
-  -->
-  @for (section of sections; track section.title) {
-    <article class="col-lg-6">
-      <div class="card h-100">
-        <div class="card-body">
-          <h3 class="h5 card-title">{{ section.title }}</h3>
-          <p class="text-secondary">{{ section.description }}</p>
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Databinding</h3>
+        <p class="text-secondary">Databinding verbindt data uit TypeScript met de HTML-template.</p>
 
-          <div class="mb-3">
-            <h4 class="h6">Uitleg</h4>
-            <ul class="mb-0">
-              @for (detail of section.details; track detail) {
-                <li>{{ detail }}</li>
-              }
-            </ul>
-          </div>
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li>Met databinding kan Angular waarden uit je component tonen of gebruiken in de HTML.</li>
+          <li>Je gebruikt het ook om te reageren op acties van de gebruiker, zoals klikken of typen.</li>
+          <li>In onze les valt property binding en style binding mee onder attribute binding.</li>
+          <li>Een template reference variable geeft een HTML-element een lokale naam in de template.</li>
+        </ul>
 
-          <div class="mb-3">
-            <h4 class="h6">Belangrijke syntax</h4>
-            <div class="d-flex flex-wrap gap-2">
-              @for (syntax of section.syntax; track syntax) {
-                <code class="border rounded px-2 py-1 bg-light">{{ syntax }}</code>
-              }
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <h4 class="h6">Kernpunten</h4>
-            <ul class="mb-0">
-            @for (point of section.points; track point) {
-              <li>{{ point }}</li>
-            }
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="h6">Examen</h4>
-            <ul class="mb-0">
-              @for (tip of section.examTips; track tip) {
-                <li>{{ tip }}</li>
-              }
-            </ul>
-          </div>
-
-          @if (section.codeExample) {
-            <div class="mt-3">
-              <h4 class="h6">{{ section.codeExampleTitle }}</h4>
-              <pre class="bg-light border rounded p-3 mb-0"><code>{{ section.codeExample }}</code></pre>
-            </div>
-          }
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">{{ '{{ pageTitle }}' }}</code>
+          <code class="border rounded px-2 py-1 bg-light">(click)="increaseClickCount()"</code>
+          <code class="border rounded px-2 py-1 bg-light">[(ngModel)]="studentName"</code>
+          <code class="border rounded px-2 py-1 bg-light">[disabled]="isResetDisabled"</code>
+          <code class="border rounded px-2 py-1 bg-light">#quickName</code>
         </div>
+
+        <h4 class="h6">Examen</h4>
+        <ul>
+          <li>Ken het verschil tussen data tonen en reageren op events.</li>
+          <li>Vergeet niet dat <code>[(ngModel)]</code> <code>FormsModule</code> nodig heeft.</li>
+          <li>Template reference variables zijn handig voor kleine lokale acties.</li>
+        </ul>
+
+        <h4 class="h6">Klein voorbeeld</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>export class Databinding {{ '{' }}
+  studentName = 'Lina';
+  clickCount = 0;
+
+  increaseClickCount() {{ '{' }}
+    this.clickCount++;
+  {{ '}' }}
+{{ '}' }}
+
+&lt;p&gt;Welkom, {{ '{{ studentName }}' }}&lt;/p&gt;
+&lt;input [(ngModel)]="studentName" /&gt;
+&lt;input #quickName /&gt;
+&lt;button (click)="showTemplateReferenceValue(quickName.value)"&gt;Lees&lt;/button&gt;</code></pre>
       </div>
-    </article>
-  }
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Singleton, service laag en JSON</h3>
+        <p class="text-secondary">Een service zet data en logica apart van componenten.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li>Een component moet vooral data tonen en gebruikersacties opvangen.</li>
+          <li>Een service wordt gebruikt om data op te halen, te bewaren of te verwerken.</li>
+          <li><code>providedIn: 'root'</code> maakt normaal 1 gedeelde instantie van de service.</li>
+          <li><code>ngOnInit</code> is een lifecycle hook die uitgevoerd wordt wanneer het component start.</li>
+        </ul>
+
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">&#64;Injectable({{ '{' }} providedIn: 'root' {{ '}' }})</code>
+          <code class="border rounded px-2 py-1 bg-light">ngOnInit()</code>
+          <code class="border rounded px-2 py-1 bg-light">this.http.get&lt;Student[]&gt;(this.apiUrl)</code>
+          <code class="border rounded px-2 py-1 bg-light">.pipe(tap(...), map(...))</code>
+          <code class="border rounded px-2 py-1 bg-light">catchError((error) =&gt; of([]))</code>
+        </div>
+
+        <h4 class="h6">Examen</h4>
+        <ul>
+          <li>Service laag betekent: component vraagt data aan de service, niet rechtstreeks aan JSON.</li>
+          <li><code>tap()</code> verandert data niet, <code>map()</code> verandert data wel.</li>
+          <li><code>async</code> subscribet automatisch op een Observable.</li>
+          <li><code>catchError</code> voorkomt dat je app crasht bij API-fouten.</li>
+        </ul>
+
+        <h4 class="h6">Klein voorbeeld</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>&#64;Injectable({{ '{' }}
+  providedIn: 'root'
+{{ '}' }})
+export class StudentService {{ '{' }}
+  constructor(private http: HttpClient) {{ '{}' }}
+
+  getStudents(): Observable&lt;Student[]&gt; {{ '{' }}
+    return this.http.get&lt;Student[]&gt;(this.apiUrl).pipe(
+      tap((students) =&gt; console.log(students)),
+      catchError((error) =&gt; of([]))
+    );
+  {{ '}' }}
+{{ '}' }}</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Echte API gebruiken</h3>
+        <p class="text-secondary">Een echte API gebruikt dezelfde HttpClient-basis, maar meestal met meer endpoints.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li>Voor Angular lijkt een lokaal JSON-bestand ophalen sterk op data ophalen uit een echte API.</li>
+          <li>Een echte API staat op een server en kan vaak data toevoegen, aanpassen of verwijderen.</li>
+          <li>Bij een echte API kunnen beveiliging en fouten belangrijker worden.</li>
+        </ul>
+
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">HttpHeaders</code>
+          <code class="border rounded px-2 py-1 bg-light">http.get</code>
+          <code class="border rounded px-2 py-1 bg-light">http.post</code>
+          <code class="border rounded px-2 py-1 bg-light">http.put</code>
+          <code class="border rounded px-2 py-1 bg-light">http.delete</code>
+        </div>
+
+        <h4 class="h6">Examen</h4>
+        <ul>
+          <li><code>GET</code> haalt data op.</li>
+          <li><code>POST</code> maakt nieuwe data aan.</li>
+          <li><code>PUT</code> past een volledig object aan.</li>
+          <li><code>PATCH</code> past een deel van een object aan.</li>
+          <li><code>DELETE</code> verwijdert data.</li>
+          <li>Headers, tokens, CORS en error handling komen vaak voor bij echte API's.</li>
+        </ul>
+
+        <h4 class="h6">Voorbeeld service met echte studenten-API</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>export class StudentService {{ '{' }}
+  apiUrl = environment.apiUrl + '/api/Students';
+
+  httpOptions = {{ '{' }}
+    headers: new HttpHeaders({{ '{' }}
+      'Content-Type': 'application/json'
+    {{ '}' }})
+  {{ '}' }};
+
+  constructor(private http: HttpClient) {{ '{}' }}
+
+  getStudents(): Observable&lt;Student[]&gt; {{ '{' }}
+    return this.http.get&lt;Student[]&gt;(this.apiUrl);
+  {{ '}' }}
+
+  getStudent(id: number): Observable&lt;Student&gt; {{ '{' }}
+    return this.http.get&lt;Student&gt;(`${{ '${' }}this.apiUrl{{ '}' }}/${{ '${' }}id{{ '}' }}`);
+  {{ '}' }}
+
+  createStudent(student: Student): Observable&lt;Student&gt; {{ '{' }}
+    return this.http.post&lt;Student&gt;(this.apiUrl, student, this.httpOptions);
+  {{ '}' }}
+
+  updateStudent(student: Student): Observable&lt;void&gt; {{ '{' }}
+    return this.http.put&lt;void&gt;(`${{ '${' }}this.apiUrl{{ '}' }}/${{ '${' }}student.id{{ '}' }}`, student, this.httpOptions);
+  {{ '}' }}
+
+  deleteStudent(id: number): Observable&lt;void&gt; {{ '{' }}
+    return this.http.delete&lt;void&gt;(`${{ '${' }}this.apiUrl{{ '}' }}/${{ '${' }}id{{ '}' }}`, this.httpOptions);
+  {{ '}' }}
+{{ '}' }}</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Input & Output</h3>
+        <p class="text-secondary">Componenten kunnen data doorgeven en events terugsturen.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li>Parent to child betekent dat de parent data doorgeeft aan de child.</li>
+          <li>Child to parent betekent dat de child een event terugstuurt naar de parent.</li>
+          <li>Dit is handig wanneer je een groter scherm opsplitst in kleinere componenten.</li>
+        </ul>
+
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">&#64;Input()</code>
+          <code class="border rounded px-2 py-1 bg-light">&#64;Output()</code>
+          <code class="border rounded px-2 py-1 bg-light">EventEmitter</code>
+          <code class="border rounded px-2 py-1 bg-light">$event</code>
+        </div>
+
+        <h4 class="h6">Klein voorbeeld</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>&lt;app-student-card
+  [student]="student"
+  (studentSelected)="selectStudent($event)"
+/&gt;
+
+&#64;Input() student!: Student;
+&#64;Output() studentSelected = new EventEmitter&lt;Student&gt;();
+
+sendStudentToParent() {{ '{' }}
+  this.studentSelected.emit(this.student);
+{{ '}' }}</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Routing</h3>
+        <p class="text-secondary">Routing koppelt URLs aan componenten.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li>Routing zorgt ervoor dat je meerdere paginas kan tonen binnen dezelfde Angular app.</li>
+          <li>De browser hoeft niet volledig te herladen wanneer je naar een andere route gaat.</li>
+          <li>Met route parameters kan je een waarde zoals een id uit de URL lezen.</li>
+        </ul>
+
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">routerLink</code>
+          <code class="border rounded px-2 py-1 bg-light">router-outlet</code>
+          <code class="border rounded px-2 py-1 bg-light">students/:id</code>
+          <code class="border rounded px-2 py-1 bg-light">ActivatedRoute</code>
+        </div>
+
+        <h4 class="h6">Klein voorbeeld</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>export const routes: Routes = [
+  {{ '{' }} path: '', component: Home {{ '}' }},
+  {{ '{' }} path: 'students', component: StudentFeature {{ '}' }},
+  {{ '{' }} path: 'students/:id', component: StudentDetail {{ '}' }},
+  {{ '{' }} path: '**', redirectTo: '' {{ '}' }}
+];
+
+&lt;nav&gt;
+  &lt;a routerLink="/students"&gt;Studenten&lt;/a&gt;
+&lt;/nav&gt;
+&lt;router-outlet&gt;&lt;/router-outlet&gt;
+
+ngOnInit() {{ '{' }}
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+{{ '}' }}</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Reactive Form</h3>
+        <p class="text-secondary">Reactive forms worden vooral opgebouwd in TypeScript.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li>Bij reactive forms staat de formulierstructuur in de component class.</li>
+          <li>De HTML koppelt zich aan die structuur met <code>formGroup</code> en <code>formControlName</code>.</li>
+          <li>Validatie wordt overzichtelijk in TypeScript geplaatst met <code>Validators</code>.</li>
+        </ul>
+
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">FormGroup</code>
+          <code class="border rounded px-2 py-1 bg-light">FormControl</code>
+          <code class="border rounded px-2 py-1 bg-light">Validators.required</code>
+          <code class="border rounded px-2 py-1 bg-light">formControlName</code>
+        </div>
+
+        <h4 class="h6">Klein voorbeeld</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>studentForm = new FormGroup({{ '{' }}
+  voornaam: new FormControl('', [Validators.required]),
+  email: new FormControl('', [Validators.required, Validators.email])
+{{ '}' }});
+
+&lt;form [formGroup]="studentForm" (ngSubmit)="saveStudent()"&gt;
+  &lt;input formControlName="voornaam" /&gt;
+  &lt;input formControlName="email" /&gt;
+  &lt;button [disabled]="studentForm.invalid"&gt;Opslaan&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Drag & Drop</h3>
+        <p class="text-secondary">Met Angular CDK kan je HTML-elementen sleepbaar maken.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li><code>cdkDrag</code> maakt een element sleepbaar.</li>
+          <li><code>cdkDragBoundary</code> beperkt het slepen tot een bepaald gebied.</li>
+          <li><code>cdkDragEnded</code> laat je reageren wanneer de gebruiker stopt met slepen.</li>
+        </ul>
+
+        <h4 class="h6">Belangrijke syntax</h4>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <code class="border rounded px-2 py-1 bg-light">DragDropModule</code>
+          <code class="border rounded px-2 py-1 bg-light">cdkDrag</code>
+          <code class="border rounded px-2 py-1 bg-light">cdkDragBoundary</code>
+          <code class="border rounded px-2 py-1 bg-light">cdkDragEnded</code>
+        </div>
+
+        <h4 class="h6">Klein voorbeeld</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>&lt;div class="pitch-boundary"&gt;
+  &lt;div
+    class="player"
+    cdkDragBoundary=".pitch-boundary"
+    cdkDrag
+    (cdkDragEnded)="onDragEnded($event)"
+  &gt;
+    ST
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Angular CLI commandos</h3>
+        <p class="text-secondary">Handige terminalcommandos om projecten, componenten, services en models te maken.</p>
+
+        <h4 class="h6">Uitleg</h4>
+        <ul>
+          <li><code>ng new</code> maakt een nieuw Angular-project.</li>
+          <li><code>ng g c</code> maakt een component.</li>
+          <li><code>ng g s</code> maakt een service.</li>
+          <li><code>ng g class</code> maakt een class, bijvoorbeeld een model.</li>
+        </ul>
+
+        <h4 class="h6">Studentgerichte commandos</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>ng new student-exam-prep
+npm install
+npm install bootstrap
+npm install &#64;angular/cdk&#64;^21.1.0
+ng serve -o
+npm run build
+
+ng generate environments
+ng g s shared/services/student
+ng g class shared/models/Student
+
+ng g c features/Student/Overview
+ng g c features/Student/OverviewBalance
+ng g c features/Student/StudentDetail
+ng g c features/Databinding
+ng g c features/InputOutput
+ng g c features/ReactiveForm
+ng g c features/DragDrop
+ng g c features/Summary</code></pre>
+      </div>
+    </div>
+  </article>
 </section>
