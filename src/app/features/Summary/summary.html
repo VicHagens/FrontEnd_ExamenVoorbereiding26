@@ -267,21 +267,59 @@ ngOnInit() {{ '{' }}
         <div class="d-flex flex-wrap gap-2 mb-3">
           <code class="border rounded px-2 py-1 bg-light">FormGroup</code>
           <code class="border rounded px-2 py-1 bg-light">FormControl</code>
+          <code class="border rounded px-2 py-1 bg-light">FormArray</code>
           <code class="border rounded px-2 py-1 bg-light">Validators.required</code>
           <code class="border rounded px-2 py-1 bg-light">formControlName</code>
+          <code class="border rounded px-2 py-1 bg-light">formArrayName</code>
         </div>
 
         <h4 class="h6">Klein voorbeeld</h4>
         <pre class="bg-light border rounded p-3 mb-0"><code>studentForm = new FormGroup({{ '{' }}
   voornaam: new FormControl('', [Validators.required]),
-  email: new FormControl('', [Validators.required, Validators.email])
+  email: new FormControl('', [Validators.required, Validators.email]),
+  courses: new FormArray([
+    new FormControl('Front-End Development')
+  ])
 {{ '}' }});
 
 &lt;form [formGroup]="studentForm" (ngSubmit)="saveStudent()"&gt;
   &lt;input formControlName="voornaam" /&gt;
   &lt;input formControlName="email" /&gt;
+
+  &lt;div formArrayName="courses"&gt;
+    &lt;input [formControlName]="0" /&gt;
+  &lt;/div&gt;
+
   &lt;button [disabled]="studentForm.invalid"&gt;Opslaan&lt;/button&gt;
 &lt;/form&gt;</code></pre>
+      </div>
+    </div>
+  </article>
+
+  <article class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="h5 card-title">Belangrijke imports</h3>
+        <p class="text-secondary">
+          Veel Angular fouten komen door een ontbrekende import. Dit blok zet de belangrijkste op een rij.
+        </p>
+
+        <h4 class="h6">Forms</h4>
+        <pre class="bg-light border rounded p-3"><code>import {{ '{' }} FormsModule {{ '}' }} from '&#64;angular/forms';
+import {{ '{' }} ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators {{ '}' }} from '&#64;angular/forms';</code></pre>
+
+        <h4 class="h6">HTTP en services</h4>
+        <pre class="bg-light border rounded p-3"><code>import {{ '{' }} HttpClient, HttpHeaders {{ '}' }} from '&#64;angular/common/http';
+import {{ '{' }} Injectable {{ '}' }} from '&#64;angular/core';
+import {{ '{' }} Observable, tap, map, catchError, of {{ '}' }} from 'rxjs';</code></pre>
+
+        <h4 class="h6">Routing</h4>
+        <pre class="bg-light border rounded p-3"><code>import {{ '{' }} Routes {{ '}' }} from '&#64;angular/router';
+import {{ '{' }} RouterLink, RouterOutlet, ActivatedRoute, Router {{ '}' }} from '&#64;angular/router';</code></pre>
+
+        <h4 class="h6">Pipes en Angular CDK</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} AsyncPipe, JsonPipe, UpperCasePipe, PercentPipe {{ '}' }} from '&#64;angular/common';
+import {{ '{' }} DragDropModule, CdkDragEnd {{ '}' }} from '&#64;angular/cdk/drag-drop';</code></pre>
       </div>
     </div>
   </article>

@@ -766,6 +766,7 @@ De oefening staat in:
 - Formuliervelden met `FormControl`.
 - Validatie met `Validators`.
 - HTML-koppeling met `[formGroup]` en `formControlName`.
+- Dynamische velden met `FormArray`.
 - Submit met `(ngSubmit)`.
 - Foutmeldingen met `@if`.
 - Een disabled submitknop zolang het formulier ongeldig is.
@@ -789,6 +790,28 @@ Kort:
 ```text
 FormGroup = volledig formulier
 FormControl = 1 veld in dat formulier
+FormArray = dynamische lijst van velden
+```
+
+### FormArray
+
+Een `FormArray` gebruik je wanneer je niet vooraf weet hoeveel velden er nodig zijn.
+Bijvoorbeeld: een student kan meerdere vakken volgen.
+
+Voorbeeld:
+
+```ts
+courses: new FormArray([
+  new FormControl('Front-End Development')
+])
+```
+
+In de HTML:
+
+```html
+<div formArrayName="courses">
+  <input [formControlName]="0" />
+</div>
 ```
 
 ### Validators
@@ -859,6 +882,7 @@ Als het formulier geldig is, maken we een nieuw `Student` object met de formulie
 - `ReactiveFormsModule` is nodig om reactive forms te gebruiken.
 - `[formGroup]` koppelt een HTML-form aan een FormGroup.
 - `formControlName` koppelt een input aan een FormControl.
+- `formArrayName` koppelt een stuk HTML aan een FormArray.
 - `Validators` controleren de input.
 - `form.valid` zegt of het formulier geldig is.
 - `form.value` bevat de ingevulde waarden.
@@ -993,3 +1017,34 @@ Kort:
 - `ng g c` maakt een component.
 - `features/...` gebruik je voor onderdelen/pagina's van je applicatie.
 - Voor schoolgerichte oefeningen kan je alles rond `Student` groeperen in `features/Student`.
+
+## 9. Belangrijke imports
+
+Forms:
+
+```ts
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+```
+
+HTTP en services:
+
+```ts
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, tap, map, catchError, of } from 'rxjs';
+```
+
+Routing:
+
+```ts
+import { Routes } from '@angular/router';
+import { RouterLink, RouterOutlet, ActivatedRoute, Router } from '@angular/router';
+```
+
+Pipes en CDK:
+
+```ts
+import { AsyncPipe, JsonPipe, UpperCasePipe, PercentPipe } from '@angular/common';
+import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
+```

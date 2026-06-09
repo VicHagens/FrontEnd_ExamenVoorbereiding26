@@ -104,6 +104,36 @@
             }
           </div>
 
+          <div formArrayName="courses">
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+              <label class="form-label fw-bold mb-0">Vakken</label>
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="addCourse()">
+                Vak toevoegen
+              </button>
+            </div>
+
+            <!--
+              FORMARRAY:
+              Een FormArray is handig wanneer je niet vooraf weet hoeveel velden er zullen zijn.
+              Hier kan de gebruiker meerdere vakken toevoegen of verwijderen.
+            -->
+            <div class="d-grid gap-2">
+              @for (course of courses.controls; track $index) {
+                <div class="input-group">
+                  <input class="form-control" type="text" [formControlName]="$index" />
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    (click)="removeCourse($index)"
+                    [disabled]="courses.length === 1"
+                  >
+                    Verwijder
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+
           <!--
             PROPERTY BINDING:
             De knop is disabled zolang het formulier ongeldig is.

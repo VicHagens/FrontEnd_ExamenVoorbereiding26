@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Student } from '../../shared/models/student';
 
 @Component({
@@ -30,6 +30,12 @@ export class ReactiveForm {
       Validators.required,
       Validators.min(0),
       Validators.max(180)
+    ]),
+    // FormArray:
+    // Hiermee kan je een dynamische lijst van velden bijhouden.
+    // Hier gebruiken we het om meerdere vakken/cursussen toe te voegen.
+    courses: new FormArray([
+      new FormControl('Front-End Development', Validators.required)
     ])
   });
 
@@ -41,6 +47,22 @@ export class ReactiveForm {
     { id: 2, name: 'Nederland' },
     { id: 3, name: 'Frankrijk' }
   ];
+
+  get courses(): FormArray<FormControl<string | null>> {
+    // Deze getter maakt de HTML leesbaarder.
+    // In plaats van telkens studentForm.get('courses') te schrijven, gebruiken we courses.
+    return this.studentForm.get('courses') as FormArray<FormControl<string | null>>;
+  }
+
+  addCourse() {
+    // push() voegt een nieuwe FormControl toe aan de FormArray.
+    this.courses.push(new FormControl('', Validators.required));
+  }
+
+  removeCourse(index: number) {
+    // removeAt() verwijdert een FormControl op basis van de index.
+    this.courses.removeAt(index);
+  }
 
   isInvalid(controlName: string): boolean {
     const control = this.studentForm.get(controlName);
@@ -79,7 +101,8 @@ export class ReactiveForm {
       studentnummer: '',
       email: '',
       country: 1,
-      behaaldePunten: 0
+      behaaldePunten: 0,
+      courses: ['Front-End Development']
     });
   }
 }
