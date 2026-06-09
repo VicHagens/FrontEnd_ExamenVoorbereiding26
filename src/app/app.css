@@ -1,4 +1,17 @@
-.nav-link.active {
-  background: #0d6efd;
+.app-toolbar {
+  min-height: auto;
+  padding: 8px 0;
+}
+
+.app-title {
+  font-weight: 700;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+a.active {
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }

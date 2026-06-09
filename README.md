@@ -988,6 +988,7 @@ ng new student-exam-prep
 npm install
 npm install bootstrap
 npm install @angular/cdk@^21.1.0
+npm install @angular/material@^21.1.0 @angular/animations@^21.1.0
 ng serve -o
 npm run build
 ```
@@ -998,6 +999,7 @@ Kort:
 - `npm install` installeert dependencies uit `package.json`.
 - `npm install bootstrap` voegt Bootstrap toe.
 - `npm install @angular/cdk@^21.1.0` voegt Angular CDK toe voor drag and drop.
+- `npm install @angular/material@^21.1.0 @angular/animations@^21.1.0` voegt Angular Material toe.
 - `ng serve -o` start de app en opent de browser.
 - `npm run build` controleert of het project correct buildt.
 
@@ -1072,4 +1074,11 @@ Pipes en CDK:
 ```ts
 import { AsyncPipe, JsonPipe, UpperCasePipe, PercentPipe } from '@angular/common';
 import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
+```
+
+Angular Material:
+
+```ts
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 ```

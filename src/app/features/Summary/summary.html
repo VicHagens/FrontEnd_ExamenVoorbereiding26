@@ -411,6 +411,10 @@ import {{ '{' }} RouterLink, RouterOutlet, ActivatedRoute, Router {{ '}' }} from
         <h4 class="h6">Pipes en Angular CDK</h4>
         <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} AsyncPipe, JsonPipe, UpperCasePipe, PercentPipe {{ '}' }} from '&#64;angular/common';
 import {{ '{' }} DragDropModule, CdkDragEnd {{ '}' }} from '&#64;angular/cdk/drag-drop';</code></pre>
+
+        <h4 class="h6 mt-3">Angular Material</h4>
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} MatToolbarModule {{ '}' }} from '&#64;angular/material/toolbar';
+import {{ '{' }} MatButtonModule {{ '}' }} from '&#64;angular/material/button';</code></pre>
       </div>
     </div>
   </article>
@@ -487,6 +491,7 @@ export class DragDrop {{ '{' }}
 npm install
 npm install bootstrap
 npm install &#64;angular/cdk&#64;^21.1.0
+npm install &#64;angular/material&#64;^21.1.0 &#64;angular/animations&#64;^21.1.0
 ng serve -o
 npm run build
 
