@@ -42,15 +42,30 @@
         <pre class="bg-light border rounded p-3 mb-0"><code>export class Databinding {{ '{' }}
   studentName = 'Lina';
   clickCount = 0;
+  isResetDisabled = true;
+  templateReferenceMessage = 'Nog geen waarde opgehaald.';
 
   increaseClickCount() {{ '{' }}
     this.clickCount++;
+    this.isResetDisabled = false;
+  {{ '}' }}
+
+  resetClickCount() {{ '{' }}
+    this.clickCount = 0;
+    this.isResetDisabled = true;
+  {{ '}' }}
+
+  showTemplateReferenceValue(value: string) {{ '{' }}
+    this.templateReferenceMessage = value;
   {{ '}' }}
 {{ '}' }}
 
 &lt;p&gt;Welkom, {{ '{{ studentName }}' }}&lt;/p&gt;
+&lt;p&gt;Aantal clicks: {{ '{{ clickCount }}' }}&lt;/p&gt;
 &lt;input [(ngModel)]="studentName" /&gt;
 &lt;input #quickName /&gt;
+&lt;button (click)="increaseClickCount()"&gt;Klik&lt;/button&gt;
+&lt;button [disabled]="isResetDisabled" (click)="resetClickCount()"&gt;Reset&lt;/button&gt;
 &lt;button (click)="showTemplateReferenceValue(quickName.value)"&gt;Lees&lt;/button&gt;</code></pre>
       </div>
     </div>
@@ -88,10 +103,17 @@
         </ul>
 
         <h4 class="h6">Klein voorbeeld</h4>
-        <pre class="bg-light border rounded p-3 mb-0"><code>&#64;Injectable({{ '{' }}
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} HttpClient {{ '}' }} from '&#64;angular/common/http';
+import {{ '{' }} Injectable {{ '}' }} from '&#64;angular/core';
+import {{ '{' }} Observable, catchError, of, tap {{ '}' }} from 'rxjs';
+import {{ '{' }} Student {{ '}' }} from '../models/student';
+
+&#64;Injectable({{ '{' }}
   providedIn: 'root'
 {{ '}' }})
 export class StudentService {{ '{' }}
+  private apiUrl = 'students.json';
+
   constructor(private http: HttpClient) {{ '{}' }}
 
   getStudents(): Observable&lt;Student[]&gt; {{ '{' }}
@@ -138,7 +160,16 @@ export class StudentService {{ '{' }}
         </ul>
 
         <h4 class="h6">Voorbeeld service met echte studenten-API</h4>
-        <pre class="bg-light border rounded p-3 mb-0"><code>export class StudentService {{ '{' }}
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} HttpClient, HttpHeaders {{ '}' }} from '&#64;angular/common/http';
+import {{ '{' }} Injectable {{ '}' }} from '&#64;angular/core';
+import {{ '{' }} Observable {{ '}' }} from 'rxjs';
+import {{ '{' }} environment {{ '}' }} from '../../../environments/environment';
+import {{ '{' }} Student {{ '}' }} from '../models/student';
+
+&#64;Injectable({{ '{' }}
+  providedIn: 'root'
+{{ '}' }})
+export class StudentService {{ '{' }}
   apiUrl = environment.apiUrl + '/api/Students';
 
   httpOptions = {{ '{' }}
@@ -195,16 +226,35 @@ export class StudentService {{ '{' }}
         </div>
 
         <h4 class="h6">Klein voorbeeld</h4>
-        <pre class="bg-light border rounded p-3 mb-0"><code>&lt;app-student-card
+        <pre class="bg-light border rounded p-3 mb-0"><code>// Parent HTML
+&lt;app-student-card
   [student]="student"
   (studentSelected)="selectStudent($event)"
 /&gt;
 
+// Parent TypeScript
+export class InputOutput {{ '{' }}
+  selectedStudent?: Student;
+
+  selectStudent(student: Student) {{ '{' }}
+    this.selectedStudent = student;
+  {{ '}' }}
+{{ '}' }}
+
+// Child TypeScript
+import {{ '{' }} Component, EventEmitter, Input, Output {{ '}' }} from '&#64;angular/core';
+
+&#64;Component({{ '{' }}
+  selector: 'app-student-card',
+  templateUrl: './student-card.html'
+{{ '}' }})
+export class StudentCard {{ '{' }}
 &#64;Input() student!: Student;
 &#64;Output() studentSelected = new EventEmitter&lt;Student&gt;();
 
 sendStudentToParent() {{ '{' }}
   this.studentSelected.emit(this.student);
+{{ '}' }}
 {{ '}' }}</code></pre>
       </div>
     </div>
@@ -232,7 +282,12 @@ sendStudentToParent() {{ '{' }}
         </div>
 
         <h4 class="h6">Klein voorbeeld</h4>
-        <pre class="bg-light border rounded p-3 mb-0"><code>export const routes: Routes = [
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} Routes {{ '}' }} from '&#64;angular/router';
+import {{ '{' }} Home {{ '}' }} from './features/Home/home';
+import {{ '{' }} StudentFeature {{ '}' }} from './features/Student/student';
+import {{ '{' }} StudentDetail {{ '}' }} from './features/Student/student-detail/student-detail';
+
+export const routes: Routes = [
   {{ '{' }} path: '', component: Home {{ '}' }},
   {{ '{' }} path: 'students', component: StudentFeature {{ '}' }},
   {{ '{' }} path: 'students/:id', component: StudentDetail {{ '}' }},
@@ -244,8 +299,15 @@ sendStudentToParent() {{ '{' }}
 &lt;/nav&gt;
 &lt;router-outlet&gt;&lt;/router-outlet&gt;
 
-ngOnInit() {{ '{' }}
-  const id = Number(this.route.snapshot.paramMap.get('id'));
+// student-detail.ts
+import {{ '{' }} ActivatedRoute {{ '}' }} from '&#64;angular/router';
+
+export class StudentDetail {{ '{' }}
+  constructor(private route: ActivatedRoute) {{ '{}' }}
+
+  ngOnInit() {{ '{' }}
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+  {{ '}' }}
 {{ '}' }}</code></pre>
       </div>
     </div>
@@ -275,13 +337,30 @@ ngOnInit() {{ '{' }}
         </div>
 
         <h4 class="h6">Klein voorbeeld</h4>
-        <pre class="bg-light border rounded p-3 mb-0"><code>studentForm = new FormGroup({{ '{' }}
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} FormArray, FormControl, FormGroup, Validators {{ '}' }} from '&#64;angular/forms';
+
+export class ReactiveForm {{ '{' }}
+studentForm = new FormGroup({{ '{' }}
   voornaam: new FormControl('', [Validators.required]),
   email: new FormControl('', [Validators.required, Validators.email]),
   courses: new FormArray([
     new FormControl('Front-End Development')
   ])
 {{ '}' }});
+
+get courses(): FormArray {{ '{' }}
+  return this.studentForm.get('courses') as FormArray;
+{{ '}' }}
+
+saveStudent() {{ '{' }}
+  if (this.studentForm.invalid) {{ '{' }}
+    this.studentForm.markAllAsTouched();
+    return;
+  {{ '}' }}
+
+  console.log(this.studentForm.value);
+{{ '}' }}
+{{ '}' }}
 
 &lt;form [formGroup]="studentForm" (ngSubmit)="saveStudent()"&gt;
   &lt;input formControlName="voornaam" /&gt;
@@ -347,7 +426,24 @@ import {{ '{' }} DragDropModule, CdkDragEnd {{ '}' }} from '&#64;angular/cdk/dra
         </div>
 
         <h4 class="h6">Klein voorbeeld</h4>
-        <pre class="bg-light border rounded p-3 mb-0"><code>&lt;div class="pitch-boundary"&gt;
+        <pre class="bg-light border rounded p-3 mb-0"><code>import {{ '{' }} CdkDragEnd, DragDropModule {{ '}' }} from '&#64;angular/cdk/drag-drop';
+import {{ '{' }} Component {{ '}' }} from '&#64;angular/core';
+
+&#64;Component({{ '{' }}
+  selector: 'app-drag-drop',
+  imports: [DragDropModule],
+  templateUrl: './drag-drop.html'
+{{ '}' }})
+export class DragDrop {{ '{' }}
+  lastPosition = 'Nog niet verplaatst';
+
+  onDragEnded(event: CdkDragEnd) {{ '{' }}
+    const position = event.source.getFreeDragPosition();
+    this.lastPosition = `X: ${{ '${' }}Math.round(position.x){{ '}' }}, Y: ${{ '${' }}Math.round(position.y){{ '}' }}`;
+  {{ '}' }}
+{{ '}' }}
+
+&lt;div class="pitch-boundary"&gt;
   &lt;div
     class="player"
     cdkDragBoundary=".pitch-boundary"
